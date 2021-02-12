@@ -1,0 +1,27 @@
+{
+  "name": "butterfly-plugins",
+  "version": "1.0.0",
+  "description": "butterfly-plugins for theme-butterfly",
+  "main": "README.md",
+  "scripts": {
+    "update": "git init && git add ."
+  },
+  "keywords": [
+    "hexo",
+    "pug",
+    "renderer",
+    "plugins",
+    "hexo-butterfly",
+    "butterfly"
+  ],
+  "author": "Jerry <btf@immyw.com>",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1"
+  }
+}

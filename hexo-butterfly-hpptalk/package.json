@@ -1,0 +1,30 @@
+{
+  "name": "hexo-butterfly-hpptalk",
+  "version": "1.0.0",
+  "description": "Hexoplusplus-talk plugin for theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ."
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "lib/",
+    "index.js"
+  ],
+  "keywords": [
+    "hexo",
+    "renderer",
+    "hexoplusplus",
+    "butterfly",
+    "theme-butterfly",
+    "plugins",
+    "shuoshuo"
+  ],
+  "author": "Jerry <btf@immyw.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pug": "^3.0.0"
+  }
+}

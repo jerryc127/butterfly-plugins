@@ -1,0 +1,23 @@
+#artitalk_main
+script.
+  (()=>{
+    let setting = {
+      appId: '#{appId}',
+      appKey: '#{appKey}',
+    }
+
+    if (!{Boolean(option)}) {
+      const otherSetting = #{option}
+      setting = Object.assign(setting, otherSetting)
+    }
+
+    const init = () => {
+      new Artitalk(setting)
+    }
+
+    if (typeof Artitalk === 'function') {
+      init()
+    } else {
+      getScript('#{js}').then(init)
+    }
+  })()

@@ -1,0 +1,33 @@
+#hpp_talk
+script.
+  (()=>{
+    let setting = {
+      id: "hpp_talk",
+      domain: '#{domain}',
+      limit: #{limit},
+      start: #{start},
+    }
+
+    if (!{Boolean(option)}) {
+      const otherSetting = #{option}
+      setting = Object.assign(setting, otherSetting)
+    }
+
+    const init = () => {
+      new hpp_talk(setting)
+    }
+
+    const addCss = () => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = '#{css}'
+      document.head.appendChild(link)
+    }
+
+    if (typeof hpp_talk === 'function') {
+      init()
+    } else {
+      addCss()
+      getScript('#{js}').then(init)
+    }
+  })()

@@ -1,0 +1,29 @@
+{
+  "name": "hexo-butterfly-artitalk",
+  "version": "1.0.0",
+  "description": "Artitalk plugin for theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ."
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "lib/",
+    "index.js"
+  ],
+  "keywords": [
+    "hexo",
+    "renderer",
+    "artitalk",
+    "butterfly",
+    "theme-butterfly",
+    "plugins"
+  ],
+  "author": "Jerry <btf@immyw.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pug": "^3.0.0"
+  }
+}
