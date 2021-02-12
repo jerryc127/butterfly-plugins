@@ -26,5 +26,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "pug": "^3.0.0"
-  }
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/jerryc127/butterfly-plugins.git"
+  },
+  "homepage": "https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-hpptalk"
+
 }

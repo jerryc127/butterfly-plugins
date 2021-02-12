@@ -27,8 +27,8 @@
 | ------------ | ------------------------------------------------------------ |
 | appId        | 【必須】LeanCloud 創建的應用中的 AppID                       |
 | appKey       | 【必須】LeanCloud 創建的應用中的 AppKEY                      |
-| path         | 【可選】Artitalk 的路徑名稱（默認為 artitalk，生成的頁面為 artitalk/index.html） |
-| js           | 【可選】更換 Artitalk 的 js CDN                                  |
+| path         | 【可選】Artitalk 的路徑名稱（默認為 `artitalk`，生成的頁面為 artitalk/index.html） |
+| js           | 【可選】更換 Artitalk 的 js CDN（默認為 `https://cdn.jsdelivr.net/npm/artitalk`） |
 | option       | 【可選】Artitalk 需要的額外配置                              |
 | front_matter | 【可選】Artitalk 頁面的 front_matter 配置                    |
 

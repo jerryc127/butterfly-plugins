@@ -7,7 +7,7 @@ const urlFor = require('hexo-util').url_for.bind(hexo)
 hexo.extend.generator.register('artitalk', function (locals) {
   const config = hexo.theme.config.artitalk
 
-  if (!config.enable) return
+  if (!(config && config.enable)) return
 
   const data = {
     appId: config.appId,
