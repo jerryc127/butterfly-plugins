@@ -1,0 +1,47 @@
+{
+  "name": "hexo-butterfly-douban",
+  "version": "1.1.4",
+  "description": "Generate douban pages of books , movies and games for Hexo.",
+  "main": "index",
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "mocha test/index.js",
+    "test-cov": "istanbul cover --print both _mocha -- test/index.js"
+  },
+  "dependencies": {
+    "ejs": "2.5.6",
+    "hexo-fs": "^0.2.2",
+    "hexo-i18n": "^0.2.1",
+    "hexo-log": "^0.2.0",
+    "path": "^0.12.7",
+    "urllib-sync": "^1.0.1",
+    "xmldom": "^0.1.27",
+    "xpath": "^0.0.24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jerryc127/butterfly-plugins.git"
+  },
+  "keywords": [
+    "generator",
+    "plugin",
+    "books",
+    "movies",
+    "hexo",
+    "douban",
+    "butterfly",
+    "hexo-theme-butterfly"
+  ],
+  "author": "Jerry",
+  "license": "MIT",
+  "devDependencies": {
+    "bluebird": "^3.5.0",
+    "chai": "^1.10.0",
+    "eslint": "^1.10.3",
+    "eslint-config-hexo": "^1.0.2",
+    "hexo": "^3.2.0",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.0.1"
+  },
+  "homepage": "https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-douban"
+}

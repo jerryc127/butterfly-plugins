@@ -1,0 +1,52 @@
+<% if (meta) { %>
+    <meta name="referrer" content="no-referrer">
+<% } %>
+
+<blockquote>
+    <p><%- quote; %></p>
+</blockquote>
+
+<style>
+    <% include index.css %>
+</style>
+
+<div class="hexo-douban-tabs">
+    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
+       rel="external">
+        <%= __('movieWatching') %>
+        (<%= watching.length %>)</a>
+    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
+       rel="external">
+        <%= __('movieWish') %>
+        (<%= wish.length %>)</a>
+    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
+       rel="external">
+        <%= __('movieWatched') %>
+        (<%= watched.length %>)</a>
+</div>
+<div>
+    <div id="hexo-douban-item1">
+        <% watching.forEach(function(item){ %>
+        <% include movieWatching.ejs %>
+        <% }); %>
+        <% include pagination.ejs %>
+    </div>
+    <div id="hexo-douban-item2">
+        <% wish.forEach(function(item){ %>
+        <% include movieWish.ejs %>
+        <% }); %>
+        <% include pagination.ejs %>
+    </div>
+    <div id="hexo-douban-item3">
+        <% watched.forEach(function(item){ %>
+        <% include movieWatched.ejs %>
+        <% }); %>
+        <% include pagination.ejs %>
+    </div>
+</div>
+
+<script>
+    <% include index.js %>
+    <% include pagination.js %>
+</script>
+
