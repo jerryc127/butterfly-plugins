@@ -16,9 +16,8 @@
   ],
   "author": "Jerry <btf@immyw.com>",
   "license": "Apache-2.0",
-  "dependencies": {},
   "devDependencies": {
-    "eslint": "^7.19.0",
+    "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",

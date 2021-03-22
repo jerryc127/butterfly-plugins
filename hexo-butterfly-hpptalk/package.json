@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-hpptalk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hexoplusplus-talk plugin for theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "plugins",
     "shuoshuo"
   ],
-  "author": "Jerry <btf@immyw.com>",
+  "author": "Jerry <i@immyw.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "pug": "^3.0.0"

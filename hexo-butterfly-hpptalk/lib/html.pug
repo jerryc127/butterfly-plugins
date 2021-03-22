@@ -1,26 +1,19 @@
 #hpp_talk
 script.
   (()=>{
-    let setting = {
-      id: "hpp_talk",
-      domain: '#{domain}',
-      limit: #{limit},
-      start: #{start},
-    }
-
-    if (!{Boolean(option)}) {
-      const otherSetting = #{option}
-      setting = Object.assign(setting, otherSetting)
-    }
-
     const init = () => {
-      new hpp_talk(setting)
+      new hpp_talk(Object.assign({
+        id: "hpp_talk",
+        domain: '#{domain}',
+        limit: !{limit},
+        start: !{start},
+      }, !{option}))
     }
 
     const addCss = () => {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
-      link.href = '#{css}'
+      link.href = '!{css}'
       document.head.appendChild(link)
     }
 
@@ -28,6 +21,6 @@ script.
       init()
     } else {
       addCss()
-      getScript('#{js}').then(init)
+      getScript('!{js}').then(init)
     }
   })()
