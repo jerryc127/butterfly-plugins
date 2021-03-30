@@ -5,7 +5,7 @@ const path = require('path')
 const urlFor = require('hexo-util').url_for.bind(hexo)
 
 hexo.extend.generator.register('artitalk', function (locals) {
-  const config = hexo.theme.config.artitalk
+  const config = hexo.config.artitalk || hexo.theme.config.artitalk
 
   if (!(config && config.enable)) return
 

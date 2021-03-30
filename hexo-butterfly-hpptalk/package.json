@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-hpptalk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Hexoplusplus-talk plugin for theme-butterfly",
   "main": "index.js",
   "scripts": {

@@ -13,7 +13,7 @@
     參考 [Artitalk 文檔 - LeanCloud 的相關準備](https://artitalk.js.org/doc.html#%F0%9F%8C%88-leancloud-%E7%9A%84%E7%9B%B8%E5%85%B3%E5%87%86%E5%A4%87)
 
 3. 添加配置信息
-    在**主題**的配置文件中添加
+    在 **Hexo** 的配置文件 或者 **主題**的配置文件中添加
 
     ```yaml
       # Artitalk

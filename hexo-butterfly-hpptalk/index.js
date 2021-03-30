@@ -5,7 +5,7 @@ const path = require('path')
 const urlFor = require('hexo-util').url_for.bind(hexo)
 
 hexo.extend.generator.register('hpptalk', function (locals) {
-  const config = hexo.theme.config.hpptalk
+  const config = hexo.config.hpptalk || hexo.theme.config.hpptalk
 
   if (!(config && config.enable)) return
 

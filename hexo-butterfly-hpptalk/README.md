@@ -13,7 +13,7 @@
     參考 [hexoplusplus 文檔 - 快速上手](https://hexoplusplus.js.org/start/)
 
 3. 添加配置信息
-    在**主題**的配置文件中添加
+    在 **Hexo** 的配置文件 或者 **主題**的配置文件中添加
 
     ```yaml
     # HexoPlusPlus Talk
