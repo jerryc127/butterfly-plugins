@@ -156,22 +156,30 @@ module.exports = function (locals) {
 
     var __ = i18n.__(config.language);
 
-    var contents = ejs.renderFile(path.join(__dirname, 'templates/book.ejs'), {
+    var lazyloadConfig = this.theme.config.lazyload
+    var themeLazyload = lazyloadConfig.enable ? (lazyloadConfig.field && lazyloadConfig.field === 'site' ? true : false) : false
+
+    var contents
+    
+    ejs.renderFile(path.join(__dirname, 'templates/book.ejs'), {
         'meta': config.douban.book.meta,
         'quote': config.douban.book.quote,
         'wish': wish,
         'read': read,
         'reading': reading,
         '__': __,
-        'root': root
+        'root': root,
+        'lazyload': themeLazyload
     },
         function (err, result) {
             if (err) console.log(err);
-            return result;
+            contents = result;
         });
+    
+    var pathName = config.douban.book.path || 'books'
 
     return {
-        path: 'books/index.html',
+        path: `${pathName}/index.html`,
         data: {
             title: config.douban.book.title,
             content: contents,

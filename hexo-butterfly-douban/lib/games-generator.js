@@ -145,21 +145,29 @@ module.exports = function (locals) {
 
     var __ = i18n.__(config.language);
 
-    var contents = ejs.renderFile(path.join(__dirname, 'templates/game.ejs'), {
+    var lazyloadConfig = this.theme.config.lazyload
+    var themeLazyload = lazyloadConfig.enable ? (lazyloadConfig.field && lazyloadConfig.field === 'site' ? true : false) : false
+
+    var contents
+    
+    ejs.renderFile(path.join(__dirname, 'templates/game.ejs'), {
         'meta': config.douban.game.meta,
         'quote': config.douban.game.quote,
         'wish': wish,
         'played': played,
         'playing': playing,
         '__': __,
-        'root': root
+        'root': root,
+        'lazyload': themeLazyload
     }, function (err, result) {
         if (err) console.log(err);
-        return result;
+        contents = result;
     });
 
+    var pathName = config.douban.game.path || 'games'
+
     return {
-        path: 'games/index.html',
+        path: `${pathName}/index.html`,
         data: {
             title: config.douban.game.title,
             content: contents,

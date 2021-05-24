@@ -23,6 +23,7 @@ douban:
     comments: true
     top_img: https://cccccc.png
     aside: true
+    path: books
   movie:
     title: 'This is my movie title'
     quote: 'This is my movie quote'
@@ -30,6 +31,7 @@ douban:
     comments: true
     top_img: https://cccccc.png
     aside: true
+    path: movies
   game:
     title: 'This is my game title'
     quote: 'This is my game quote'
@@ -37,6 +39,7 @@ douban:
     comments: true
     top_img: https://cccccc.png
     aside: true
+    path: games
   timeout: 10000 
 ```
 
@@ -49,6 +52,7 @@ douban:
 - **comments**： 是否顯示評論
 - **top_img**： 頂部圖
 - **aside**： 是否顯示側邊欄
+- **path**: 生成的網址
 
 如果只想顯示某一個頁面(比如movie)，那就把其他的配置項註釋掉即可。
 

@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-douban",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Generate douban pages of books , movies and games for Hexo.",
   "main": "index",
   "scripts": {
@@ -9,7 +9,7 @@
     "test-cov": "istanbul cover --print both _mocha -- test/index.js"
   },
   "dependencies": {
-    "ejs": "3.1.6",
+    "ejs": "^3.1.6",
     "hexo-fs": "^3.1.0",
     "hexo-i18n": "^1.0.0",
     "hexo-log": "^2.0.0",

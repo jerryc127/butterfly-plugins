@@ -18,8 +18,8 @@ function resolv(url, timeout) {
     var response = '';
     try {
         response = request(url, {
-            timeout: timeout
-            // dataType: 'xml'
+            timeout: timeout,
+            dataType: 'xml'
         });
     } catch (err) {
         offline = true;
@@ -144,13 +144,12 @@ module.exports = function (locals) {
     log.info(wish.length + watched.length + ' movies have been loaded in ' + (endTime - startTime) + " ms" + offlinePrompt);
 
     var __ = i18n.__(config.language);
-
-    // console.log(this.theme.config.lazyload.enable);
     
     var lazyloadConfig = this.theme.config.lazyload
     var themeLazyload = lazyloadConfig.enable ? (lazyloadConfig.field && lazyloadConfig.field === 'site' ? true : false) : false
 
-    var contents = ejs.renderFile(path.join(__dirname, 'templates/movie.ejs'), {
+    var contents
+    ejs.renderFile(path.join(__dirname, 'templates/movie.ejs'), {
         'meta': config.douban.movie.meta,
         'quote': config.douban.movie.quote,
         'wish': wish,
@@ -162,11 +161,13 @@ module.exports = function (locals) {
     },{},
         function (err, result) {
             if (err) console.log(err);
-            return result;
+            contents = result;
         });
 
+    var pathName = config.douban.game.path || 'movies'
+
     return {
-        path: 'movies/index.html',
+        path: `${pathName}/index.html`,
         data: {
             title: config.douban.movie.title,
             content: contents,
