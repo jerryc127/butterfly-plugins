@@ -4,7 +4,7 @@ var request = require('urllib-sync').request;
 var ejs = require('ejs');
 var xpath = require('xpath');
 var path = require('path');
-var Dom = require('xmldom').DOMParser;
+const { DOMParser } = require('xmldom')
 var renderStar = require('./util').renderStar;
 var i18n = require('./util').i18n;
 var offline = false;
@@ -31,7 +31,7 @@ function resolv(url, timeout) {
             next: ""
         };
     }
-    var doc = new Dom({
+    var doc = new DOMParser({
         errorHandler: {
             warning: function (e) {
             },
@@ -51,7 +51,7 @@ function resolv(url, timeout) {
         next = url.substring(0,url.lastIndexOf('?')) + next;
     }
     for (var i in items) {
-        var parser = new Dom().parseFromString(items[i].toString());
+        var parser = new DOMParser().parseFromString(items[i].toString());
         var title = xpath.select1('string(//div[@class="title"]/a)', parser);
         var alt = xpath.select1('string(//div[@class="title"]/a/@href)', parser);
         var image = xpath.select1('string(//div[@class="pic"]/a/img/@src)', parser);

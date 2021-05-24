@@ -4,7 +4,7 @@ var request = require('urllib-sync').request;
 var ejs = require('ejs');
 var xpath = require('xpath');
 var path = require('path');
-var Dom = require('xmldom').DOMParser;
+const { DOMParser } = require('xmldom')
 var renderStar = require('./util').renderStar;
 var i18n = require('./util').i18n;
 var offline = false;
@@ -38,7 +38,7 @@ function resolv(url, timeout, headers) {
         headers['Cookie'] = response.headers['set-cookie']
     }
 
-    var doc = new Dom({
+    var doc = new DOMParser({
         errorHandler: {
             warning: function (e) {
             },
@@ -61,7 +61,7 @@ function resolv(url, timeout, headers) {
 
     var list = [];
     for (var i in items) {
-        var parser = new Dom().parseFromString(items[i].toString());
+        var parser = new DOMParser().parseFromString(items[i].toString());
         var title = xpath.select1('string(//div[@class="info"]/h2/a/@title)', parser);
         var alt = xpath.select1('string(//div[@class="info"]/h2/a/@href)', parser);
         var image = xpath.select1('string(//div[@class="pic"]/a/img/@src)', parser);

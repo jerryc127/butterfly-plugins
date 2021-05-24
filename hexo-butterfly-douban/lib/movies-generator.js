@@ -4,7 +4,7 @@ var request = require('urllib-sync').request;
 var ejs = require('ejs');
 var xpath = require('xpath');
 var path = require('path');
-var Dom = require('xmldom').DOMParser;
+const { DOMParser } = require('xmldom')
 var renderStar = require('./util').renderStar;
 var i18n = require('./util').i18n;
 var offline = false;
@@ -18,8 +18,8 @@ function resolv(url, timeout) {
     var response = '';
     try {
         response = request(url, {
-            timeout: timeout,
-            dataType: 'xml'
+            timeout: timeout
+            // dataType: 'xml'
         });
     } catch (err) {
         offline = true;
@@ -32,7 +32,7 @@ function resolv(url, timeout) {
         };
     }
 
-    var doc = new Dom({
+    var doc = new DOMParser({
         errorHandler: {
             warning: function (e) {
             },
@@ -53,7 +53,7 @@ function resolv(url, timeout) {
 
     var list = [];
     for (var i in items) {
-        var parser = new Dom().parseFromString(items[i].toString());
+        var parser = new DOMParser().parseFromString(items[i].toString());
         var title = xpath.select1('string(//li[@class="title"]/a/em)', parser);
         var alt = xpath.select1('string(//li[@class="title"]/a/@href)', parser);
         var image = xpath.select1('string(//div[@class="item"]/div[@class="pic"]/a/img/@src)', parser).replace('ipst', 'spst');
@@ -145,6 +145,11 @@ module.exports = function (locals) {
 
     var __ = i18n.__(config.language);
 
+    // console.log(this.theme.config.lazyload.enable);
+    
+    var lazyloadConfig = this.theme.config.lazyload
+    var themeLazyload = lazyloadConfig.enable ? (lazyloadConfig.field && lazyloadConfig.field === 'site' ? true : false) : false
+
     var contents = ejs.renderFile(path.join(__dirname, 'templates/movie.ejs'), {
         'meta': config.douban.movie.meta,
         'quote': config.douban.movie.quote,
@@ -152,8 +157,9 @@ module.exports = function (locals) {
         'watched': watched,
         'watching': watching,
         '__': __,
-        'root': root
-    },
+        'root': root,
+        'lazyload': themeLazyload
+    },{},
         function (err, result) {
             if (err) console.log(err);
             return result;

@@ -9,14 +9,13 @@
     "test-cov": "istanbul cover --print both _mocha -- test/index.js"
   },
   "dependencies": {
-    "ejs": "2.5.6",
-    "hexo-fs": "^0.2.2",
-    "hexo-i18n": "^0.2.1",
-    "hexo-log": "^0.2.0",
-    "path": "^0.12.7",
-    "urllib-sync": "^1.0.1",
-    "xmldom": "^0.1.27",
-    "xpath": "^0.0.24"
+    "ejs": "3.1.6",
+    "hexo-fs": "^3.1.0",
+    "hexo-i18n": "^1.0.0",
+    "hexo-log": "^2.0.0",
+    "urllib-sync": "jerryc127/urllib-sync",
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.32"
   },
   "repository": {
     "type": "git",

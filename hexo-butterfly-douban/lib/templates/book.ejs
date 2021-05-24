@@ -7,7 +7,7 @@
 </blockquote>
 
 <style>
-    <% include index.css %>
+    <%- include('index.css') %>
 </style>
 
 <div class="hexo-douban-tabs">
@@ -27,28 +27,28 @@
 <div>
     <div id="hexo-douban-item1">
         <% reading.forEach(function(item){ %>
-        <% include bookReading.ejs %>
+        <%- include('bookReading.ejs',{item: item,lazyload: lazyload}) %>
         <% }); %>
-        <% include pagination.ejs %>
+        <%- include('pagination.ejs') %>
     </div>
     <div id="hexo-douban-item2">
         <% wish.forEach(function(item){ %>
-        <% include bookWish.ejs %>
+        <%- include('bookWish.ejs',{item: item,lazyload: lazyload}) %>
         <% }); %>
-        <% include pagination.ejs %>
+        <%- include('pagination.ejs') %>
 
     </div>
     <div id="hexo-douban-item3">
         <% read.forEach(function(item){ %>
-        <% include bookRead.ejs %>
+        <%- include('bookRead.ejs',{item: item,lazyload: lazyload}) %>
         <% }); %>
-        <% include pagination.ejs %>
+        <%- include('pagination.ejs') %>
     </div>
 
 </div>
 
 <script>
-    <% include index.js %>
-    <% include pagination.js %>
+    <%- include('index.js') %>
+    <%- include('pagination.js') %>
 </script>
 
