@@ -164,7 +164,7 @@ module.exports = function (locals) {
             contents = result;
         });
 
-    var pathName = config.douban.game.path || 'movies'
+    var pathName = config.douban.movie.path || 'movies'
 
     return {
         path: `${pathName}/index.html`,
