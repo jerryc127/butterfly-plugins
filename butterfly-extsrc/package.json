@@ -1,10 +1,11 @@
 {
   "name": "butterfly-extsrc",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "The external resource of hexo-theme-butterfly",
   "main": "package.json",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp"
   },
   "keywords": [
     "hexo",
@@ -19,10 +20,12 @@
   "homepage": "https://butterfly.js.org/",
   "author": "Jerry <wong@jerryc.me>",
   "license": "Apache-2.0",
-  "dependencies": {},
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
-    "gulp-terser": "^2.0.0"
+    "gulp-terser": "^2.0.1"
+  },
+  "dependencies": {
+    "gulp-inject-string": "^1.1.2"
   }
 }
