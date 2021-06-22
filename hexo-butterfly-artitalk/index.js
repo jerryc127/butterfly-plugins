@@ -12,6 +12,7 @@ hexo.extend.generator.register('artitalk', function (locals) {
   const data = {
     appId: config.appId,
     appKey: config.appKey,
+    serverURL: config.serverURL,
     option: config.option ? JSON.stringify(config.option) : false,
     js: config.js ? urlFor(config.js) : 'https://cdn.jsdelivr.net/npm/artitalk'
   }
