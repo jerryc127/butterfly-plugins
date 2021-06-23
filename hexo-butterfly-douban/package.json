@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-douban",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Generate douban pages of books , movies and games for Hexo.",
   "main": "index",
   "scripts": {
@@ -31,6 +31,13 @@
     "butterfly",
     "hexo-theme-butterfly"
   ],
+  "devDependencies": {
+    "bluebird": "^3.7.2",
+    "chai": "^4.3.4",
+    "hexo": "^5.4.0",
+    "istanbul": "^0.4.1",
+    "mocha": "^9.0.1"
+  },
   "author": "Jerry",
   "license": "MIT",
   "homepage": "https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-douban"

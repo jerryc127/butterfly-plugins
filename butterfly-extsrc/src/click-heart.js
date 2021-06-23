@@ -1,6 +1,6 @@
 ;(function (window, document) {
-  var script = document.getElementById('click-heart')
-  var mb = script.getAttribute('mobile')
+  const script = document.getElementById('click-heart')
+  const mb = script.getAttribute('mobile')
   if (
     mb === 'false' &&
     /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
@@ -8,7 +8,7 @@
     return
   }
 
-  var hearts = []
+  const hearts = []
   window.requestAnimationFrame = (function () {
     return (
       window.requestAnimationFrame ||
@@ -33,7 +33,7 @@
   }
 
   function gameLoop () {
-    for (var i = 0; i < hearts.length; i++) {
+    for (let i = 0; i < hearts.length; i++) {
       if (hearts[i].alpha <= 0) {
         document.body.removeChild(hearts[i].el)
         hearts.splice(i, 1)
@@ -59,14 +59,14 @@
     requestAnimationFrame(gameLoop)
   }
   function attachEvent () {
-    var old = typeof window.onclick === 'function' && window.onclick
+    const old = typeof window.onclick === 'function' && window.onclick
     window.onclick = function (event) {
       old && old()
       createHeart(event)
     }
   }
   function createHeart (event) {
-    var d = document.createElement('div')
+    const d = document.createElement('div')
     d.className = 'heart'
     hearts.push({
       el: d,
@@ -79,7 +79,7 @@
     document.body.appendChild(d)
   }
   function css (css) {
-    var style = document.createElement('style')
+    const style = document.createElement('style')
     try {
       style.appendChild(document.createTextNode(css))
     } catch (ex) {

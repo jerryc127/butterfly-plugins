@@ -46,18 +46,21 @@ douban:
   timeout: 10000 
 ```
 
-- **user**: 你的豆瓣ID.打開豆瓣，登入賬户，然後在右上角點擊 "個人主頁" ，這時候地址欄的URL大概是這樣："https://www.douban.com/people/xxxxxx/" ，其中的"xxxxxx"就是你的個人ID了。
-- **builtin**: 是否將生成頁面的功能嵌入`hexo s`和`hexo g`中，默認是`false`,另一可選項為`true`(1.x.x版本新增配置項)。
-- **title**: 該頁面的標題.
-- **quote**: 寫在頁面開頭的一段話,支持html語法.
-- **timeout**: 爬取數據的超時時間，默認是 10000ms ,如果在使用時發現報了超時的錯(ETIMEOUT)可以把這個數據設置的大一點。
-- **meta**: 插入 `<meta name="referrer" content="no-referrer">` 到頁面，可解決部分瀏覽器無法顯示豆瓣圖片的問題（會導致一些插件出錯，例如 不蒜子計數器。）
-- **comments**： 是否顯示評論
-- **top_img**： 頂部圖
-- **aside**： 是否顯示側邊欄
-- **path**: 生成的網址
+| 參數     | 解釋                                                         |
+| -------- | ------------------------------------------------------------ |
+| user     | 你的豆瓣ID.打開豆瓣，登入賬户，然後在右上角點擊 "個人主頁" ，這時候地址欄的URL大概是這樣："https://www.douban.com/people/xxxxxx/" ，其中的"xxxxxx"就是你的個人ID了 |
+| builtin  | 是否將生成頁面的功能嵌入`hexo s`和`hexo g`中，默認是`false`,另一可選項為`true`(1.x.x版本新增配置項) |
+| title    | 該頁面的標題                                                 |
+| quote    | 寫在頁面開頭的一段話,支持 html 語法.                         |
+| timeout  | 【可選】爬取數據的超時時間，默認是 10000ms ,如果在使用時發現報了超時的錯(ETIMEOUT)可以把這個數據設置的大一點 |
+| meta     | 【可選】插入 `<meta name="referrer" content="no-referrer">` 到頁面，可解決部分瀏覽器無法顯示豆瓣圖片的問題（會導致一些插件出錯，例如 不蒜子計數器。） |
+| comments | 【可選】是否顯示評論                                         |
+| top_img  | 【可選】是否顯示頂部圖                                       |
+| aside    | 【可選】是否顯示側邊欄                                       |
+| path     | 【可選】生成的網址<br />movie 頁面默認為 `//yourblog/movies`<br />book 頁面默認為  `//yourblog/books` <br />game 頁面默認為 ``//yourblog/games` |
+| limit    | 【可選】限制爬取的頁數                                       |
 
-如果只想顯示某一個頁面(比如movie)，那就把其他的配置項註釋掉即可。
+**如果只想顯示某一個頁面(比如movie)，那就把其他的配置項註釋掉即可。**
 
 ## 使用
 

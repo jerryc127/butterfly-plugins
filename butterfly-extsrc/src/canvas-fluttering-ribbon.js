@@ -3,13 +3,13 @@
     window[name] = factory()
   }
 })('Ribbons', function () {
-  var _w = window
-  var _b = document.body
-  var _d = document.documentElement
+  const _w = window
+  const _b = document.body
+  const _d = document.documentElement
   var random = function () {
     if (arguments.length === 1) {
       if (Array.isArray(arguments[0])) {
-        var index = Math.round(random(0, arguments[0].length - 1))
+        const index = Math.round(random(0, arguments[0].length - 1))
         return arguments[0][index]
       }
       return random(0, arguments[0])
@@ -18,19 +18,19 @@
     }
     return 0
   }
-  var screenInfo = function (e) {
-    var width = Math.max(
+  const screenInfo = function (e) {
+    const width = Math.max(
       0,
       _w.innerWidth || _d.clientWidth || _b.clientWidth || 0
     )
-    var height = Math.max(
+    const height = Math.max(
       0,
       _w.innerHeight || _d.clientHeight || _b.clientHeight || 0
     )
-    var scrollx =
+    const scrollx =
       Math.max(0, _w.pageXOffset || _d.scrollLeft || _b.scrollLeft || 0) -
       (_d.clientLeft || 0)
-    var scrolly =
+    const scrolly =
       Math.max(0, _w.pageYOffset || _d.scrollTop || _b.scrollTop || 0) -
       (_d.clientTop || 0)
     return {
@@ -43,10 +43,10 @@
       scrolly: scrolly
     }
   }
-  var mouseInfo = function (e) {
-    var screen = screenInfo(e)
-    var mousex = e ? Math.max(0, e.pageX || e.clientX || 0) : 0
-    var mousey = e ? Math.max(0, e.pageY || e.clientY || 0) : 0
+  const mouseInfo = function (e) {
+    const screen = screenInfo(e)
+    const mousex = e ? Math.max(0, e.pageX || e.clientX || 0) : 0
+    const mousey = e ? Math.max(0, e.pageY || e.clientY || 0) : 0
     return {
       mousex: mousex,
       mousey: mousey,
@@ -54,7 +54,7 @@
       centery: mousey - screen.height / 2
     }
   }
-  var Point = function (x, y) {
+  const Point = function (x, y) {
     this.x = 0
     this.y = 0
     this.set(x, y)
@@ -107,7 +107,7 @@
       return this
     }
   }
-  var Factory = function (options) {
+  const Factory = function (options) {
     this._canvas = null
     this._context = null
     this._sto = null
@@ -137,7 +137,7 @@
     constructor: Factory,
     setOptions: function (options) {
       if (typeof options === 'object') {
-        for (var key in options) {
+        for (const key in options) {
           if (options.hasOwnProperty(key)) {
             this._options[key] = options[key]
           }
@@ -172,15 +172,15 @@
       this._onDraw()
     },
     addRibbon: function () {
-      var dir = Math.round(random(1, 9)) > 5 ? 'right' : 'left'
-      var stop = 1000
-      var hide = 200
-      var min = 0 - hide
-      var max = this._width + hide
-      var movex = 0
-      var movey = 0
-      var startx = dir === 'right' ? min : max
-      var starty = Math.round(random(0, this._height))
+      const dir = Math.round(random(1, 9)) > 5 ? 'right' : 'left'
+      let stop = 1000
+      const hide = 200
+      const min = 0 - hide
+      const max = this._width + hide
+      let movex = 0
+      let movey = 0
+      const startx = dir === 'right' ? min : max
+      let starty = Math.round(random(0, this._height))
       if (/^(top|min)$/i.test(this._options.verticalPosition)) {
         starty = 0 + hide
       } else if (/^(middle|center)$/i.test(this._options.verticalPosition)) {
@@ -188,12 +188,12 @@
       } else if (/^(bottom|max)$/i.test(this._options.verticalPosition)) {
         starty = this._height - hide
       }
-      var ribbon = []
-      var point1 = new Point(startx, starty)
-      var point2 = new Point(startx, starty)
-      var point3 = null
-      var color = Math.round(random(0, 360))
-      var delay = 0
+      const ribbon = []
+      const point1 = new Point(startx, starty)
+      const point2 = new Point(startx, starty)
+      let point3 = null
+      let color = Math.round(random(0, 360))
+      let delay = 0
       while (true) {
         if (stop <= 0) break
         stop--
@@ -238,7 +238,7 @@
           section.alpha = section.alpha <= 0 ? 0 : section.alpha
           section.alpha = section.alpha >= 1 ? 1 : section.alpha
           if (this._options.animateSections) {
-            var mod = Math.sin(1 + (section.phase * Math.PI) / 2) * 0.1
+            const mod = Math.sin(1 + (section.phase * Math.PI) / 2) * 0.1
             if (section.dir === 'right') {
               section.point1.add(mod, 0)
               section.point2.add(mod, 0)
@@ -255,9 +255,9 @@
         } else {
           section.delay -= 0.5
         }
-        var s = this._options.colorSaturation
-        var l = this._options.colorBrightness
-        var c =
+        const s = this._options.colorSaturation
+        const l = this._options.colorBrightness
+        const c =
           'hsla(' +
           section.color +
           ', ' +
@@ -291,17 +291,17 @@
       return false
     },
     _onDraw: function () {
-      for (var i = 0, t = this._ribbons.length; i < t; ++i) {
+      for (let i = 0, t = this._ribbons.length; i < t; ++i) {
         if (!this._ribbons[i]) {
           this._ribbons.splice(i, 1)
         }
       }
       this._context.clearRect(0, 0, this._width, this._height)
-      for (var a = 0; a < this._ribbons.length; ++a) {
-        var ribbon = this._ribbons[a]
-        var numSections = ribbon.length
-        var numDone = 0
-        for (var b = 0; b < numSections; ++b) {
+      for (let a = 0; a < this._ribbons.length; ++a) {
+        const ribbon = this._ribbons[a]
+        const numSections = ribbon.length
+        let numDone = 0
+        for (let b = 0; b < numSections; ++b) {
           if (this._drawRibbonSection(ribbon[b])) {
             numDone++
           }
@@ -316,7 +316,7 @@
       requestAnimationFrame(this._onDraw)
     },
     _onResize: function (e) {
-      var screen = screenInfo(e)
+      const screen = screenInfo(e)
       this._width = screen.width
       this._height = screen.height
       if (this._canvas) {
@@ -328,15 +328,15 @@
       }
     },
     _onScroll: function (e) {
-      var screen = screenInfo(e)
+      const screen = screenInfo(e)
       this._scroll = screen.scrolly
     }
   }
   return Factory
 })
 
-var cn = document.getElementById('fluttering_ribbon')
-var mb = cn.getAttribute('mobile')
+const cn = document.getElementById('fluttering_ribbon')
+const mb = cn.getAttribute('mobile')
 
 if (!(mb === 'false' && /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent))) {
   new Ribbons({

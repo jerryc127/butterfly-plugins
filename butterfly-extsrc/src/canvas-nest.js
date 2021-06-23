@@ -4,8 +4,8 @@
  */
 
 (function () {
-  var cn = document.getElementById('canvas_nest')
-  var mb = cn.getAttribute('mobile')
+  const cn = document.getElementById('canvas_nest')
+  const mb = cn.getAttribute('mobile')
 
   if (mb === 'false' && (/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent))) {
     return
@@ -20,7 +20,7 @@
   }
 
   function l () {
-    var v = cn
+    const v = cn
     return {
       z: o(v, 'zIndex', -1),
       o: o(v, 'opacity', 0.5),
@@ -35,8 +35,8 @@
 
   function b () {
     e.clearRect(0, 0, r, n)
-    var w = [f].concat(t)
-    var x, v, A, B, z, y
+    const w = [f].concat(t)
+    let x, v, A, B, z, y
     t.forEach(function (i) {
       i.x += i.xa, i.y += i.ya, i.xa *= i.x > r || i.x < 0 ? -1 : 1, i.ya *= i.y > n || i.y < 0 ? -1 : 1, e.fillRect(i.x - 0.5, i.y - 0.5, 1, 1)
       for (v = 0; v < w.length; v++) {
@@ -52,10 +52,10 @@
   var u = document.createElement('canvas')
   var s = l()
   var e = u.getContext('2d')
-  var r; var n; var m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (i) {
+  let r; let n; var m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (i) {
     window.setTimeout(i, 1000 / 45)
   }
-  var a = Math.random
+  const a = Math.random
   var f = {
     x: null,
     y: null,
@@ -70,10 +70,10 @@
     f.x = null, f.y = null
   }
   for (var t = [], p = 0; s.n > p; p++) {
-    var h = a() * r
-    var g = a() * n
-    var q = 2 * a() - 1
-    var d = 2 * a() - 1
+    const h = a() * r
+    const g = a() * n
+    const q = 2 * a() - 1
+    const d = 2 * a() - 1
     t.push({
       x: h,
       y: g,

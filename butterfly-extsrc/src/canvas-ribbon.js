@@ -7,8 +7,8 @@
  **/
 
 (function () {
-  var script = document.getElementById('ribbon')
-  var mb = script.getAttribute('mobile')
+  const script = document.getElementById('ribbon')
+  const mb = script.getAttribute('mobile')
   if (
     mb === 'false' &&
     /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
@@ -16,29 +16,29 @@
     return
   }
 
-  var config = {
+  const config = {
     z: attr(script, 'zIndex', -1), // z-index
     a: attr(script, 'alpha', 0.6), // alpha
     s: attr(script, 'size', 90), // size
-    c: script.getAttribute("data-click")
+    c: script.getAttribute('data-click')
   }
 
   function attr (node, attr, defaultValue) {
     return Number(node.getAttribute(attr)) || defaultValue
   }
 
-  var canvas = document.createElement('canvas')
-  var g2d = canvas.getContext('2d')
-  var pr = window.devicePixelRatio || 1
-  var width = window.innerWidth
-  var height = window.innerHeight
-  var f = config.s
-  var q; var t
-  var m = Math
-  var r = 0
-  var pi = m.PI * 2
-  var cos = m.cos
-  var random = m.random
+  const canvas = document.createElement('canvas')
+  const g2d = canvas.getContext('2d')
+  const pr = window.devicePixelRatio || 1
+  const width = window.innerWidth
+  const height = window.innerHeight
+  const f = config.s
+  let q; let t
+  const m = Math
+  let r = 0
+  const pi = m.PI * 2
+  const cos = m.cos
+  const random = m.random
   canvas.width = width * pr
   canvas.height = height * pr
   g2d.scale(pr, pr)
@@ -56,7 +56,7 @@
     g2d.beginPath()
     g2d.moveTo(i.x, i.y)
     g2d.lineTo(j.x, j.y)
-    var k = j.x + (random() * 2 - 0.25) * f; var n = line(j.y)
+    const k = j.x + (random() * 2 - 0.25) * f; const n = line(j.y)
     g2d.lineTo(k, n)
     g2d.closePath()
     r -= pi / -50
