@@ -33,14 +33,5 @@
   ],
   "author": "Jerry",
   "license": "MIT",
-  "devDependencies": {
-    "bluebird": "^3.5.0",
-    "chai": "^1.10.0",
-    "eslint": "^1.10.3",
-    "eslint-config-hexo": "^1.0.2",
-    "hexo": "^3.2.0",
-    "istanbul": "^0.4.1",
-    "mocha": "^2.0.1"
-  },
   "homepage": "https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-douban"
 }

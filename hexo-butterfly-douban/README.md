@@ -24,6 +24,7 @@ douban:
     top_img: https://cccccc.png
     aside: true
     path: books
+    limit:
   movie:
     title: 'This is my movie title'
     quote: 'This is my movie quote'
@@ -32,6 +33,7 @@ douban:
     top_img: https://cccccc.png
     aside: true
     path: movies
+    limit:
   game:
     title: 'This is my game title'
     quote: 'This is my game quote'
@@ -40,6 +42,7 @@ douban:
     top_img: https://cccccc.png
     aside: true
     path: games
+    limit:
   timeout: 10000 
 ```
 
