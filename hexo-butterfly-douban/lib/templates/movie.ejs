@@ -46,7 +46,9 @@
 </div>
 
 <script>
-    <%- include('index.js') %>
-    <%- include('pagination.js') %>
+    (() => {
+        <%- include('index.js') %>
+        <%- include('pagination.js') %>
+    })()
 </script>
 

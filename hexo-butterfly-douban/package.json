@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-douban",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Generate douban pages of books , movies and games for Hexo.",
   "main": "index",
   "scripts": {
