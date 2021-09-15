@@ -1,0 +1,27 @@
+{
+  "name": "hexo-butterfly-vanta",
+  "version": "1.0.0",
+  "description": "vantajs plugin for theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerryc127/butterfly-plugins.git"
+  },
+  "keywords": [
+    "hexo",
+    "renderer",
+    "vantajs",
+    "butterfly",
+    "theme-butterfly",
+    "plugins"
+  ],
+  "author": "Jerry <i@immyw.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jerryc127/butterfly-plugins/issues"
+  },
+  "homepage": "https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-vanta#readme"
+}
