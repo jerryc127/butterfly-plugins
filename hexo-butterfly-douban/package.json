@@ -9,12 +9,12 @@
     "test-cov": "istanbul cover --print both _mocha -- test/index.js"
   },
   "dependencies": {
+    "@xmldom/xmldom": "^0.8.0",
     "ejs": "^3.1.6",
     "hexo-fs": "^3.1.0",
     "hexo-i18n": "^1.0.0",
     "hexo-log": "^2.0.0",
     "urllib-sync": "jerryc127/urllib-sync",
-    "xmldom": "^0.6.0",
     "xpath": "^0.0.32"
   },
   "repository": {
