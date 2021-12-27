@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-douban",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Generate douban pages of books , movies and games for Hexo.",
   "main": "index",
   "scripts": {
@@ -13,7 +13,7 @@
     "ejs": "^3.1.6",
     "hexo-fs": "^3.1.0",
     "hexo-i18n": "^1.0.0",
-    "hexo-log": "^2.0.0",
+    "hexo-log": "^3.0.0",
     "urllib-sync": "jerryc127/urllib-sync",
     "xpath": "^0.0.32"
   },
