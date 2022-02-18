@@ -1,0 +1,22 @@
+{
+  "name": "hexo-butterfly-extjs",
+  "version": "1.0.0",
+  "description": "The third party scripts of hexo-theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jerryc127/butterfly-plugins.git"
+  },
+  "author": "Jerry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jerryc127/butterfly-plugins/issues"
+  },
+  "homepage": "https://github.com/jerryc127/butterfly-plugins#readme",
+  "dependencies": {
+    "fs-extra": "^10.0.0"
+  }
+}

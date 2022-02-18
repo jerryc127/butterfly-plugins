@@ -1,0 +1,217 @@
+{
+  algolia_search_v4: {
+    ver: '4.12.1',
+    cdn: 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js',
+    local: '/js/lib/algolia/algoliasearch-lite.umd.js'
+  },
+  instantsearch_v4: {
+    ver: '4.38.1',
+    cdn: 'https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js',
+    local: '/js/lib/algolia/instantsearch.production.min.js'
+  },
+  pjax: {
+    ver: '0.2.8',
+    cdn: 'https://cdn.jsdelivr.net/npm/pjax/pjax.min.js',
+    local: '/js/lib/pjax/pjax.min.js'
+  },
+  gitalk: {
+    ver: '1.7.2',
+    cdn: 'https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js',
+    local: '/js/lib/gitalk/gitalk.min.js'
+  },
+  gitalk_css: {
+    ver: '1.7.2',
+    cdn: 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css',
+    local: '/js/lib/gitalk/gitalk.css'
+  },
+  blueimp_md5: {
+    ver: '2.19.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js',
+    local: '/js/lib/blueimp-md5/md5.min.js'
+  },
+  valine: {
+    ver: '1.4.16',
+    cdn: 'https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',
+    local: '/js/lib/valine/Valine.min.js'
+  },
+  disqusjs: {
+    ver: '1.3.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js',
+    local: '/js/lib/disqusjs/disqus.js'
+  },
+  disqusjs_css: {
+    ver: '1.3.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css',
+    local: '/js/lib/disqusjs/disqusjs.css'
+  },
+  twikoo: {
+    ver: '1.4.18',
+    cdn: 'https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js',
+    local: '/js/lib/twikoo/twikoo.all.min.js'
+  },
+  waline: {
+    ver: '1.5.4',
+    cdn: 'https://cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js',
+    local: '/js/lib/waline/Waline.min.js'
+  },
+  sharejs: {
+    ver: '1.0.16',
+    cdn: 'https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js',
+    local: '/js/lib/social-share.js/dist/social-share.min.js'
+  },
+  sharejs_css: {
+    ver: '1.0.16',
+    cdn: 'https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css',
+    local: '/js/lib/social-share.js/dist/share.min.css'
+  },
+  mathjax: {
+    ver: '3.2.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+    local: '/js/lib/mathjax/tex-mml-chtml.js'
+  },
+  katex: {
+    ver: '0.15.2',
+    cdn: 'https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css',
+    local: '/js/lib/katex/katex.min.css'
+  },
+  katex_copytex: {
+    ver: '0.15.2',
+    cdn: 'https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js',
+    local: '/js/lib/katex/copy-tex.min.js'
+  },
+  katex_copytex_css: {
+    ver: '0.15.2',
+    cdn: 'https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css',
+    local: '/js/lib/katex/copy-tex.css'
+  },
+  mermaid: {
+    ver: '8.14.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js',
+    local: '/js/lib/mermaid/mermaid.min.js'
+  },
+  canvas_ribbon: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js',
+    local: '/js/lib/effect/canvas-ribbon.min.js'
+  },
+  canvas_fluttering_ribbon: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js',
+    local: '/js/lib/effect/canvas-fluttering-ribbon.min.js'
+  },
+  canvas_nest: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js',
+    local: '/js/lib/effect/canvas-nest.min.js'
+  },
+  activate_power_mode: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js',
+    local: '/js/lib/effect/activate-power-mode.min.js'
+  },
+  fireworks: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js',
+    local: '/js/lib/effect/fireworks.min.js'
+  },
+  click_heart: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js',
+    local: '/js/lib/effect/click-heart.min.js'
+  },
+  ClickShowText: {
+    ver: '1.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js',
+    local: '/js/lib/effect/click-show-text.min.js'
+  },
+  lazyload: {
+    ver: '17.5.1',
+    cdn: 'https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js',
+    local: '/js/lib/vanilla-lazyload/lazyload.iife.min.js'
+  },
+  instantpage: {
+    ver: '5.1.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/instant.page@5/instantpage.min.js',
+    local: '/js/lib/instant.page/instantpage.min.js'
+  },
+  typed: {
+    ver: '2.0.12',
+    cdn: 'https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js',
+    local: '/js/lib/typed.js/typed.min.js'
+  },
+  pangu: {
+    ver: '4.0.7',
+    cdn: 'https://cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js',
+    local: '/js/lib/pangu/pangu.min.js'
+  },
+  fancybox_css_v4: {
+    ver: '4.0.25',
+    cdn: 'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css',
+    local: '/js/lib/fancyapps/fancybox.css'
+  },
+  fancybox_v4: {
+    ver: '4.0.25',
+    cdn: 'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js',
+    local: '/js/lib/fancyapps/fancybox.umd.js'
+  },
+  medium_zoom: {
+    ver: '1.0.6',
+    cdn: 'https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js',
+    local: '/js/lib/medium-zoom/medium-zoom.min.js'
+  },
+  snackbar_css: {
+    ver: '0.1.16',
+    cdn: 'https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css',
+    local: '/js/lib/node-snackbar/snackbar.min.css'
+  },
+  snackbar: {
+    ver: '0.1.16',
+    cdn: 'https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js',
+    local: '/js/lib/node-snackbar/snackbar.min.js'
+  },
+  fontawesomeV6: {
+    ver: '6.0.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css',
+    local: '/js/lib/fontawesome-free/dist/all.min.css'
+  },
+  flickr_justified_gallery_js: {
+    ver: '2.0.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+    local: '/js/lib/flickr-justified-gallery/fjGallery.min.js'
+  },
+  flickr_justified_gallery_css: {
+    ver: '2.0.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css',
+    local: '/js/lib/flickr-justified-gallery/fjGallery.min.css'
+  },
+  aplayer_css: {
+    ver: '1.10.1',
+    cdn: 'https://cdn.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.css',
+    local: '/js/lib/aplayer/APlayer.min.css'
+  },
+  aplayer_js: {
+    ver: '1.10.1',
+    cdn: 'https://cdn.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js',
+    local: '/js/lib/aplayer/APlayer.min.js'
+  },
+  meting_js: {
+    ver: '1.2.0',
+    cdn: 'https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js',
+    local: '/js/lib/aplayer/Meting.min.js'
+  },
+  prismjs_js: {
+    ver: '1.26.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/prismjs@1/prism.min.js',
+    local: '/js/lib/prismjs/prism.min.js'
+  },
+  prismjs_lineNumber_js: {
+    ver: '1.26.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js',
+    local: '/js/lib/prismjs/prism-line-numbers.min.js'
+  },
+  prismjs_autoloader: {
+    ver: '1.26.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/prismjs@1/plugins/autoloader/prism-autoloader.min.js',
+    local: '/js/lib/prismjs/prism-autoloader.min.js'
+  }
+}
