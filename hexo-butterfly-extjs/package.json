@@ -19,7 +19,7 @@
   "dependencies": {
     "@fancyapps/ui": "^4.0.26",
     "@fortawesome/fontawesome-free": "^6.1.1",
-    "@waline/client": "^1.6.0",
+    "@waline/client": "^2.0.3",
     "algoliasearch": "^4.13.0",
     "aplayer": "^1.10.1",
     "blueimp-md5": "^2.19.0",
