@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-extjs",
-  "version": "1.1.0",
+  "version": "1.1.5",
   "description": "The third party scripts of hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "@fancyapps/ui": "^4.0.26",
     "@fortawesome/fontawesome-free": "^6.1.1",
-    "@waline/client": "^2.0.3",
+    "@waline/client": "^2.0.7",
     "algoliasearch": "^4.13.0",
     "aplayer": "^1.10.1",
     "blueimp-md5": "^2.19.0",
@@ -29,20 +29,20 @@
     "gitalk": "^1.7.2",
     "install": "^0.13.0",
     "instant.page": "^5.1.0",
-    "instantsearch.js": "^4.40.4",
+    "instantsearch.js": "^4.40.5",
     "js-yaml": "^4.1.0",
     "katex": "^0.15.3",
     "mathjax": "^3.2.0",
     "medium-zoom": "^1.0.6",
-    "mermaid": "^9.0.0",
+    "mermaid": "^9.0.1",
     "node-snackbar": "^0.1.16",
     "pangu": "^4.0.7",
     "pjax": "^0.2.8",
-    "prismjs": "^1.27.0",
+    "prismjs": "^1.28.0",
     "social-share.js": "^1.0.16",
-    "twikoo": "^1.5.3",
+    "twikoo": "^1.5.9",
     "typed.js": "^2.0.12",
     "valine": "^1.4.18",
-    "vanilla-lazyload": "^17.7.0"
+    "vanilla-lazyload": "^17.8.1"
   }
 }
