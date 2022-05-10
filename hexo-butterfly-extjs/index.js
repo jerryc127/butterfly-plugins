@@ -36,6 +36,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
 
   folders.fontawesome_free = '@fortawesome/fontawesome-free/webfonts'
   folders.social_share = 'social-share.js/dist/fonts'
+  folders.mathjax_font = 'mathjax/es5/output/chtml/fonts'
 
   const lookForFiles = (path, origin) => {
     readdirSync(path).forEach(sub => {

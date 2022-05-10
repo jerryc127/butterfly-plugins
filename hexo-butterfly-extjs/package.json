@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-extjs",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "The third party scripts of hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "@fancyapps/ui": "^4.0.26",
     "@fortawesome/fontawesome-free": "^6.1.1",
-    "@waline/client": "^2.0.7",
+    "@waline/client": "^2.3.2",
     "algoliasearch": "^4.13.0",
     "aplayer": "^1.10.1",
     "blueimp-md5": "^2.19.0",
