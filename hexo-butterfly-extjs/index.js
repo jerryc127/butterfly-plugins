@@ -35,7 +35,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const folders = []
 
   folders.fontawesome_free = '@fortawesome/fontawesome-free/webfonts'
-  folders.social_share = 'social-share.js/dist/fonts'
+  folders.social_share = 'butterfly-extsrc/ShareJS/dist/fonts'
   folders.mathjax_font = 'mathjax/es5/output/chtml/fonts'
   folders.katex_font = 'katex/dist/fonts'
 
