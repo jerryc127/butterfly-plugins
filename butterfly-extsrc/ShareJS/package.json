@@ -1,0 +1,49 @@
+{
+  "name": "social-share.js",
+  "description": "create social share buttons on your site.",
+  "version": "1.1.0",
+  "main": "dist/js/social-share.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/gulp/bin/gulp.js watch",
+    "build": "./node_modules/gulp/bin/gulp.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/overtrue/share.js.git"
+  },
+  "keywords": [
+    "sns",
+    "share",
+    "weibo",
+    "qq",
+    "douban",
+    "qzone",
+    "linkedin",
+    "facebook",
+    "google"
+  ],
+  "author": "overtrue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/overtrue/share.js/issues"
+  },
+  "homepage": "https://github.com/overtrue/share.js#readme",
+  "devDependencies": {
+    "del": "*",
+    "event-stream": "*",
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-concat": "*",
+    "gulp-cssmin": "*",
+    "gulp-imagemin": "*",
+    "gulp-livereload": "*",
+    "gulp-load-plugins": "*",
+    "gulp-notify": "*",
+    "gulp-rename": "*",
+    "gulp-sass": "*",
+    "gulp-size": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*"
+  }
+}
