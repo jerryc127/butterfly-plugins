@@ -8,6 +8,15 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const { third_party_provider } = hexo.theme.config.CDN
   if (third_party_provider && third_party_provider !== 'local') return
 
+  const { version } = require((path.join(hexo.theme_dir, 'package.json')))
+  const btfVer = version.replace(/(^.*\..*)\..*/, '$1')
+
+  if (btfVer < 4.3) {
+    hexo.log.warn('Please update theme to V4.3.0 or higher')
+    hexo.log.warn('Or install hexo-butterfly-extjs to old version')
+    hexo.log.warn('npm install hexo-butterfly-extjs@1.1.9')
+  }
+
   const plugins = yaml.load(readFileSync(path.join(__dirname, '/plugins.yml')))
   const dataObj = []
   const errorObj = []
