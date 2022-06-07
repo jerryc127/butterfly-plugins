@@ -30,7 +30,7 @@
     "instant.page": "^5.1.0",
     "instantsearch.js": "^4.40.6",
     "js-yaml": "^4.1.0",
-    "katex": "^0.15.6",
+    "katex": "^0.16.0",
     "mathjax": "^3.2.1",
     "medium-zoom": "^1.0.6",
     "mermaid": "^9.1.1",
