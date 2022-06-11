@@ -15,25 +15,27 @@ hexo.extend.generator.register('pluginsSrc', () => {
     hexo.log.warn('Please update theme to V4.3.0 or higher')
     hexo.log.warn('Or install hexo-butterfly-extjs to old version')
     hexo.log.warn('npm install hexo-butterfly-extjs@1.1.9')
+    process.exit(-1)
   }
 
-  const plugins = yaml.load(readFileSync(path.join(__dirname, '/plugins.yml')))
+  const plugins = yaml.load(readFileSync(path.join(hexo.theme_dir, '/plugins.yml')))
   const dataObj = []
   const errorObj = []
 
   for (const value of Object.values(plugins)) {
+    const fullPath = `${value.name}/${value.file}`
     try {
       dataObj.push({
-        path: `pluginsSrc/${value}`,
-        data: readFileSync(path.join(hexo.plugin_dir, value))
+        path: `pluginsSrc/${fullPath}`,
+        data: readFileSync(path.join(hexo.plugin_dir, fullPath))
       })
     } catch (error) {
-      errorObj.push(`The file does not exist: ${value}`)
+      errorObj.push(`The file does not exist: ${fullPath}`)
     }
   }
 
   if (errorObj.length > 0) {
-    hexo.log.warn('Please reinstall hexo-butterfly-extjs, run npm install hexo-butterfly-extjs.')
+    hexo.log.warn('Please reinstall hexo-butterfly-extjs.')
     for(const value of errorObj) {
       hexo.log.warn(value)
     }
@@ -44,7 +46,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const folders = []
 
   folders.fontawesome_free = '@fortawesome/fontawesome-free/webfonts'
-  folders.social_share = 'butterfly-extsrc/ShareJS/dist/fonts'
+  folders.social_share = 'butterfly-extsrc/sharejs/dist/fonts'
   folders.mathjax_font = 'mathjax/es5/output/chtml/fonts'
   folders.katex_font = 'katex/dist/fonts'
 
