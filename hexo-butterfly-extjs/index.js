@@ -14,7 +14,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
   if (btfVer < 4.3) {
     hexo.log.warn('Please update theme to V4.3.0 or higher')
     hexo.log.warn('Or install hexo-butterfly-extjs to old version')
-    hexo.log.warn('npm install hexo-butterfly-extjs@1.1.9')
+    hexo.log.warn('npm install hexo-butterfly-extjs@1.2.3')
     process.exit(-1)
   }
 
