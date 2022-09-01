@@ -3,5 +3,5 @@
   "extends": [
     "config:base"
   ],
-  "includePaths": ["package.json","hexo-butterfly-extjs/**"]
+  "includePaths": ["package.json","hexo-butterfly-extjs/package.json"]
 }
