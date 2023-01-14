@@ -1,3 +1,5 @@
+## 該插件已廢除，請使用 https://github.com/mythsman/hexo-douban
+
 # hexo-butterfly-douban
 
 在原倉庫基礎上，修改了一些內容，適配 [Butterfly 主題](https://github.com/jerryc127/hexo-theme-butterfly)。可以配置 `meta`, `top_img`, `comments` 和 `aside`
