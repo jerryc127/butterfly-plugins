@@ -36,7 +36,7 @@
     "katex": "^0.16.4",
     "mathjax": "^3.2.2",
     "medium-zoom": "^1.0.8",
-    "mermaid": "^9.4.0",
+    "mermaid": "^10.0.0",
     "node-snackbar": "^0.1.16",
     "pace-js": "^1.2.4",
     "pangu": "^4.0.7",
