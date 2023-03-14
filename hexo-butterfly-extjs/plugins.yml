@@ -72,8 +72,8 @@ katex_copytex:
   version: 0.16.4
 mermaid:
   name: mermaid
-  file: dist/mermaid.esm.min.mjs
-  version: 10.0.2
+  file: dist/mermaid.min.js
+  version: 9.4.3
 canvas_ribbon:
   name: butterfly-extsrc
   file: dist/canvas-ribbon.min.js
