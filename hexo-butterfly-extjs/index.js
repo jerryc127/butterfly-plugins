@@ -11,10 +11,10 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const { version } = require((path.join(hexo.theme_dir, 'package.json')))
   const btfVer = version.replace(/(^.*\..*)\..*/, '$1')
 
-  if (btfVer < 4.3) {
-    hexo.log.warn('Please update theme to V4.3.0 or higher')
+  if (btfVer < 4.8) {
+    hexo.log.warn('Please update theme to V4.8.0 or higher')
     hexo.log.warn('Or install hexo-butterfly-extjs to old version')
-    hexo.log.warn('npm install hexo-butterfly-extjs@1.2.3')
+    hexo.log.warn('npm install hexo-butterfly-extjs@1.3.3')
     process.exit(-1)
   }
 

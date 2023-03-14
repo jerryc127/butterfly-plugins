@@ -1,11 +1,11 @@
-algolia_search_v4:
+algolia_search:
   name: algoliasearch
   file: dist/algoliasearch-lite.umd.js
-  version: 4.14.3
-instantsearch_v4:
+  version: 4.15.0
+instantsearch:
   name: instantsearch.js
   file: dist/instantsearch.production.min.js
-  version: 4.51.0
+  version: 4.52.0
 pjax:
   name: pjax
   file: pjax.min.js
@@ -42,12 +42,12 @@ waline_js:
   name: '@waline/client'
   file: dist/waline.js
   other_name: waline
-  version: 2.14.7
+  version: 2.14.8
 waline_css:
   name: '@waline/client'
   file: dist/waline.css
   other_name: waline
-  version: 2.14.7
+  version: 2.14.8
 sharejs:
   name: butterfly-extsrc
   file: sharejs/dist/js/social-share.min.js
@@ -72,8 +72,8 @@ katex_copytex:
   version: 0.16.4
 mermaid:
   name: mermaid
-  file: dist/mermaid.min.js
-  version: 9.4.0
+  file: dist/mermaid.esm.min.mjs
+  version: 10.0.2
 canvas_ribbon:
   name: butterfly-extsrc
   file: dist/canvas-ribbon.min.js
@@ -113,20 +113,20 @@ instantpage:
 typed:
   name: typed.js
   file: lib/typed.min.js
-  version: 2.0.12
+  version: 2.0.132
 pangu:
   name: pangu
   file: dist/browser/pangu.min.js
   version: 4.0.7
-fancybox_css_v4:
+fancybox_css:
   name: '@fancyapps/ui'
-  file: dist/fancybox.css
-  version: 4.0.31
+  file: dist/fancybox/fancybox.css
+  version: 5.0.7
   other_name: fancyapps-ui
-fancybox_v4:
+fancybox:
   name: '@fancyapps/ui'
-  file: dist/fancybox.umd.js
-  version: 4.0.31
+  file: dist/fancybox/fancybox.umd.js
+  version: 5.0.7
   other_name: fancyapps-ui
 medium_zoom:
   name: medium-zoom
@@ -140,7 +140,7 @@ snackbar:
   name: node-snackbar
   file: dist/snackbar.min.js
   version: 0.1.16
-fontawesomeV6:
+fontawesome:
   name: '@fortawesome/fontawesome-free'
   file: css/all.min.css
   other_name: font-awesome
@@ -183,11 +183,11 @@ prismjs_autoloader:
 artalk_js:
   name: artalk
   file: dist/Artalk.js
-  version: 2.4.4
+  version: 2.5.0
 artalk_css:
   name: artalk
   file: dist/Artalk.css
-  version: 2.4.4
+  version: 2.5.0
 pace_js:
   name: pace-js
   other_name: pace
