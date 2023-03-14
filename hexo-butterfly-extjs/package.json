@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-extjs",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "The third party scripts of hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "prismjs": "^1.29.0",
     "social-share.js": "^1.0.16",
     "twikoo": "^1.6.10",
-    "typed.js": "^2.0.132",
+    "typed.js": "^2.0.12",
     "valine": "^1.5.1",
     "vanilla-lazyload": "^17.8.3"
   },
