@@ -43,7 +43,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
   }
 
   // webfonts
-  const folders = []
+  const folders = {}
 
   folders.fontawesome_free = '@fortawesome/fontawesome-free/webfonts'
   folders.social_share = 'butterfly-extsrc/sharejs/dist/fonts'
@@ -52,8 +52,8 @@ hexo.extend.generator.register('pluginsSrc', () => {
 
   const lookForFiles = (path, origin) => {
     readdirSync(path).forEach(sub => {
-      const subPath = path + '/' + sub
-      const name = origin + '/' + sub
+      const subPath = `${path}/${sub}`
+      const name = `${origin}/${sub}`
       const stat = statSync(subPath)
 
       if (stat.isDirectory()) {
