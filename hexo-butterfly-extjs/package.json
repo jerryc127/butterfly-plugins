@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-extjs",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "The third party scripts of hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {
