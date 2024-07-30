@@ -1,0 +1,36 @@
+{
+  "name": "hexo-butterfly-statictalk",
+  "version": "1.0.0",
+  "description": "staticTalk plugin for theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ."
+  },
+  "bin": {
+    "hexo-butterfly-statictalk": "./bin/cli.js"
+  },
+  "keywords": [
+    "hexo",
+    "renderer",
+    "statictalk",
+    "butterfly",
+    "theme-butterfly",
+    "plugins",
+    "shuoshuo"
+  ],
+  "author": "FloatSheep <admin@hesiy.cn>",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "eslint": "^9.8.0",
+    "globals": "^15.8.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.1.6",
+    "hexo-fs": "^4.1.3",
+    "js-yaml": "^4.1.0",
+    "jsdom": "^24.1.1",
+    "marked": "^13.0.3",
+    "pug": "^3.0.3"
+  }
+}
