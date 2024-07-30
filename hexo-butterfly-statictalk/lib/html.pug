@@ -47,7 +47,11 @@ case config.defaultStyle
 
 #talk-container
   each value in content
-    - const outputText = value.content;
+    -
+      const outputText = config.markdownRender
+        ? value.content
+        : value.content.replace(/\n/g, '<br>').replace(/(<br>)+/g, '<br>');
+
 
     -
       function convertTimestampToDate(timestamp) {
