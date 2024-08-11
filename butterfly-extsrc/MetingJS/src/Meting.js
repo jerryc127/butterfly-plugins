@@ -1,104 +1,142 @@
-console.log(`${'\n'} %c MetingJS v1.2.0 %c https://github.com/metowolf/MetingJS ${'\n'}`, 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;');
+class MetingJSElement extends HTMLElement {
 
-let aplayers = [];
-let loadMeting = () => {
-    let api = 'https://api.i-meto.com/meting/api?server=:server&type=:type&id=:id&r=:r';
-    if (typeof meting_api !== 'undefined') api = meting_api;
-
-    for (let i = 0; i < aplayers.length; i++) {
-        if(!aplayers[i].container.classList.contains("no-destroy")){
-            try {
-                aplayers[i].destroy();
-            } catch (e) {
-                console.log(e);
-            }
-        }
+  connectedCallback() {
+    if (window.APlayer && window.fetch) {
+      this._init()
+      this._parse()
     }
-    aplayers = [];
+  }
 
-    let elements = document.querySelectorAll(".aplayer");
+  disconnectedCallback() {
+    if (!this.lock) {
+      this.aplayer.destroy()
+    }
+  }
 
-    for (var i = 0; i < elements.length; i++) {
-        const el = elements[i];
-        if(el.classList.contains("no-reload")) continue;
-	if(el.classList.contains("no-destroy")) el.classList.add("no-reload");
-        let id = el.dataset.id;
-        if (id) {
-            let url = el.dataset.api || api;
-            url = url.replace(":server", el.dataset.server);
-            url = url.replace(":type", el.dataset.type);
-            url = url.replace(":id", el.dataset.id);
-            url = url.replace(":auth", el.dataset.auth);
-            url = url.replace(":r", Math.random());
+  _camelize(str) {
+    return str
+      .replace(/^[_.\- ]+/, '')
+      .toLowerCase()
+      .replace(/[_.\- ]+(\w|$)/g, (m, p1) => p1.toUpperCase())
+  }
 
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {
-                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-                        let response = JSON.parse(xhr.responseText);
-                        build(el, response);
-                    }
-                }
-            };
-            xhr.open('get', url, true);
-            xhr.send(null);
+  _init() {
+    let config = {}
+    for (let i = 0; i < this.attributes.length; i += 1) {
+      config[this._camelize(this.attributes[i].name)] = this.attributes[i].value
+    }
+    let keys = [
+      'server', 'type', 'id', 'api', 'auth',
+      'auto', 'lock',
+      'name', 'title', 'artist', 'author', 'url', 'cover', 'pic', 'lyric', 'lrc',
+    ]
+    this.meta = {}
+    for (let key of keys) {
+      this.meta[key] = config[key]
+      delete config[key]
+    }
+    this.config = config
 
-        } else if (el.dataset.url) {
-            let data = [{
-                name: el.dataset.name || el.dataset.title || 'Audio name',
-                artist: el.dataset.artist || el.dataset.author || 'Audio artist',
-                url: el.dataset.url,
-                cover: el.dataset.cover || el.dataset.pic,
-                lrc: el.dataset.lrc,
-                type: el.dataset.type || 'auto'
-            }];
+    this.api = this.meta.api || window.meting_api || 'https://api.i-meto.com/meting/api?server=:server&type=:type&id=:id&r=:r'
+    if (this.meta.auto) this._parse_link()
+  }
 
-            build(el, data);
-        }
+  _parse_link() {
+    let rules = [
+      ['music.163.com.*song.*id=(\\d+)', 'netease', 'song'],
+      ['music.163.com.*album.*id=(\\d+)', 'netease', 'album'],
+      ['music.163.com.*artist.*id=(\\d+)', 'netease', 'artist'],
+      ['music.163.com.*playlist.*id=(\\d+)', 'netease', 'playlist'],
+      ['music.163.com.*discover/toplist.*id=(\\d+)', 'netease', 'playlist'],
+      ['y.qq.com.*song/(\\w+).html', 'tencent', 'song'],
+      ['y.qq.com.*album/(\\w+).html', 'tencent', 'album'],
+      ['y.qq.com.*singer/(\\w+).html', 'tencent', 'artist'],
+      ['y.qq.com.*playsquare/(\\w+).html', 'tencent', 'playlist'],
+      ['y.qq.com.*playlist/(\\w+).html', 'tencent', 'playlist'],
+      ['xiami.com.*song/(\\w+)', 'xiami', 'song'],
+      ['xiami.com.*album/(\\w+)', 'xiami', 'album'],
+      ['xiami.com.*artist/(\\w+)', 'xiami', 'artist'],
+      ['xiami.com.*collect/(\\w+)', 'xiami', 'playlist'],
+    ]
+
+    for (let rule of rules) {
+      let patt = new RegExp(rule[0])
+      let res = patt.exec(this.meta.auto)
+      if (res !== null) {
+        this.meta.server = rule[1]
+        this.meta.type = rule[2]
+        this.meta.id = res[1]
+        return
+      }
+    }
+  }
+
+  _parse() {
+    if (this.meta.url) {
+      let result = {
+        name: this.meta.name || this.meta.title || 'Audio name',
+        artist: this.meta.artist || this.meta.author || 'Audio artist',
+        url: this.meta.url,
+        cover: this.meta.cover || this.meta.pic,
+        lrc: this.meta.lrc || this.meta.lyric || '',
+        type: this.meta.type || 'auto',
+      }
+      if (!result.lrc) {
+        this.meta.lrcType = 0
+      }
+      if (this.innerText) {
+        result.lrc = this.innerText
+        this.meta.lrcType = 2
+      }
+      this._loadPlayer([result])
+      return
     }
 
-    function build(element, music) {
+    let url = this.api
+      .replace(':server', this.meta.server)
+      .replace(':type', this.meta.type)
+      .replace(':id', this.meta.id)
+      .replace(':auth', this.meta.auth)
+      .replace(':r', Math.random())
 
-        let defaultOption = {
-            container: element,
-            audio: music,
-            mini: null,
-            fixed: null,
-            autoplay: false,
-            mutex: true,
-            lrcType: 3,
-            listFolded: false,
-            preload: 'auto',
-            theme: '#2980b9',
-            loop: 'all',
-            order: 'list',
-            volume: null,
-            listMaxHeight: null,
-            customAudioType: null,
-            storageName: 'metingjs'
-        };
+    fetch(url)
+      .then(res => res.json())
+      .then(result => this._loadPlayer(result))
+  }
 
-        if (!music.length) {
-            return;
-        }
+  _loadPlayer(data) {
 
-        if (!music[0].lrc) {
-            defaultOption['lrcType'] = 0;
-        }
-
-        let options = {};
-        for (const defaultKey in defaultOption) {
-            let eleKey = defaultKey.toLowerCase();
-            if (element.dataset.hasOwnProperty(eleKey) || element.dataset.hasOwnProperty(defaultKey) || defaultOption[defaultKey] !== null) {
-                options[defaultKey] = element.dataset[eleKey] || element.dataset[defaultKey] || defaultOption[defaultKey];
-                if (options[defaultKey] === 'true' || options[defaultKey] === 'false') {
-                    options[defaultKey] = (options[defaultKey] == 'true');
-                }
-            }
-        }
-
-        aplayers.push(new APlayer(options));
+    let defaultOption = {
+      audio: data,
+      mutex: true,
+      lrcType: this.meta.lrcType || 3,
+      storageName: 'metingjs'
     }
+
+    if (!data.length) return
+
+    let options = {
+      ...defaultOption,
+      ...this.config,
+    }
+    for (let optkey in options) {
+      if (options[optkey] === 'true' || options[optkey] === 'false') {
+        options[optkey] = (options[optkey] === 'true')
+      }
+    }
+
+    let div = document.createElement('div')
+    options.container = div
+    this.appendChild(div)
+
+    this.aplayer = new APlayer(options)
+  }
+
 }
 
-document.addEventListener('DOMContentLoaded', loadMeting, false);
+console.log('\n %c MetingJS v2.0.1 %c https://github.com/metowolf/MetingJS \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+
+if (window.customElements && !window.customElements.get('meting-js')) {
+  window.MetingJSElement = MetingJSElement
+  window.customElements.define('meting-js', MetingJSElement)
+}
