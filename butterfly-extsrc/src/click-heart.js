@@ -1,71 +1,69 @@
-;(function (window, document) {
+(() => {
   const script = document.getElementById('click-heart')
-  const mb = script.getAttribute('mobile')
-  if (
-    mb === 'false' &&
-    /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
-  ) {
-    return
-  }
+  const isMobile = /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
+
+  if (script.getAttribute('mobile') === 'false' && isMobile) return
 
   const hearts = []
-  window.requestAnimationFrame = (function () {
-    return (
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function (callback) {
-        setTimeout(callback, 1000 / 60)
+
+  const requestAnimationFrame = window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    (callback => setTimeout(callback, 1000 / 60))
+
+  const init = () => {
+    const style = document.createElement('style')
+    style.textContent = `
+      .heart {
+        width: 10px;
+        height: 10px;
+        position: fixed;
+        background: #f00;
+        z-index: 99999999;
+        transform: rotate(45deg);
       }
-    )
-  })()
+      .heart:after, .heart:before {
+        content: '';
+        width: inherit;
+        height: inherit;
+        background: inherit;
+        border-radius: 50%;
+        position: absolute;
+      }
+      .heart:after { top: -5px; }
+      .heart:before { left: -5px; }
+    `
+    document.head.appendChild(style)
 
-  init()
-
-  function init () {
-    css(
-      ".heart{width: 10px;height: 10px;position: fixed;background: #f00;z-index: 99999999;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}"
-    )
-    attachEvent()
+    window.addEventListener('click', createHeart)
     gameLoop()
   }
 
-  function gameLoop () {
-    for (let i = 0; i < hearts.length; i++) {
-      if (hearts[i].alpha <= 0) {
-        document.body.removeChild(hearts[i].el)
-        hearts.splice(i, 1)
-        continue
+  const gameLoop = () => {
+    hearts.forEach((heart, index) => {
+      if (heart.alpha <= 0) {
+        document.body.removeChild(heart.el)
+        hearts.splice(index, 1)
+        return
       }
-      hearts[i].y--
-      hearts[i].scale += 0.004
-      hearts[i].alpha -= 0.013
-      hearts[i].el.style.cssText =
-        'left:' +
-        hearts[i].x +
-        'px;top:' +
-        hearts[i].y +
-        'px;opacity:' +
-        hearts[i].alpha +
-        ';transform:scale(' +
-        hearts[i].scale +
-        ',' +
-        hearts[i].scale +
-        ') rotate(45deg);background:' +
-        hearts[i].color
-    }
+
+      heart.y--
+      heart.scale += 0.004
+      heart.alpha -= 0.013
+      heart.el.style.cssText = `
+        left: ${heart.x}px;
+        top: ${heart.y}px;
+        opacity: ${heart.alpha};
+        transform: scale(${heart.scale}) rotate(45deg);
+        background: ${heart.color};
+      `
+    })
     requestAnimationFrame(gameLoop)
   }
-  function attachEvent () {
-    const old = typeof window.onclick === 'function' && window.onclick
-    window.onclick = function (event) {
-      old && old()
-      createHeart(event)
-    }
-  }
-  function createHeart (event) {
+
+  const createHeart = (event) => {
     const d = document.createElement('div')
     d.className = 'heart'
     hearts.push({
@@ -78,24 +76,9 @@
     })
     document.body.appendChild(d)
   }
-  function css (css) {
-    const style = document.createElement('style')
-    try {
-      style.appendChild(document.createTextNode(css))
-    } catch (ex) {
-      style.styleSheet.cssText = css
-    }
-    document.getElementsByTagName('head')[0].appendChild(style)
-  }
-  function randomColor () {
-    return (
-      'rgb(' +
-      ~~(Math.random() * 255) +
-      ',' +
-      ~~(Math.random() * 255) +
-      ',' +
-      ~~(Math.random() * 255) +
-      ')'
-    )
-  }
-})(window, document)
+
+  const randomColor = () =>
+    `rgb(${~~(Math.random() * 255)},${~~(Math.random() * 255)},${~~(Math.random() * 255)})`
+
+  init()
+})()

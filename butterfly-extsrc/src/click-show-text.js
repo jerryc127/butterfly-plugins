@@ -1,85 +1,66 @@
-(function () {
+(() => {
   const $dom = document.getElementById('click-show-text')
-  let config = null
-  // old version
-  if ($dom.getAttribute('mobile') !== null) {
-    config = {
-      mobile: $dom.getAttribute('mobile'),
-      text: GLOBAL_CONFIG.ClickShowText.text,
-      fontSize: GLOBAL_CONFIG.ClickShowText.fontSize,
-      random: GLOBAL_CONFIG.ClickShowText.random
-    }
-  } else {
-    // new version
-    config = {
-      mobile: $dom.getAttribute('data-mobile'),
-      text: $dom.getAttribute('data-text'),
-      fontSize: $dom.getAttribute('data-fontsize'),
-      random: $dom.getAttribute('data-random')
-    }
+  const config = {
+    mobile: $dom.getAttribute('data-mobile') || $dom.getAttribute('mobile'),
+    text: $dom.getAttribute('data-text') || GLOBAL_CONFIG.ClickShowText.text,
+    fontSize: $dom.getAttribute('data-fontsize') || GLOBAL_CONFIG.ClickShowText.fontSize,
+    random: $dom.getAttribute('data-random') || GLOBAL_CONFIG.ClickShowText.random
   }
 
-  if (config.mobile === 'false' && /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
-    return
-  }
+  if (config.mobile === 'false' && /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) return
 
-  const randomColor = function () {
-    const colorElements = '0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f'
-    const colorArray = colorElements.split(',')
-    let color = '#'
-    for (let i = 0; i < 6; i++) {
-      color += colorArray[Math.floor(Math.random() * 16)]
-    }
-    return color
-  }
+  const randomColor = () => '#' + Array.from({ length: 6 }, () => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('')
 
-  let aIdx = 0
+  const textArray = config.text.split(',')
+  let textIndex = 0
 
-  document.body.addEventListener('click', function (e) {
-    const text = config.text.split(',')
+  document.body.addEventListener('click', e => {
     const $span = document.createElement('span')
-    if (config.random === 'true') {
-      aIdx = Math.floor(Math.random() * text.length)
-      $span.textContent = text[aIdx]
-    } else {
-      $span.textContent = text[aIdx]
-      aIdx = (aIdx + 1) % text.length
-    }
 
-    const x = e.pageX
-    const y = e.pageY
-    let top = y - 20
+    if (config.random === 'true') {
+      textIndex = Math.floor(Math.random() * textArray.length)
+    } else {
+      textIndex = (textIndex + 1) % textArray.length
+    }
+    $span.textContent = textArray[textIndex]
+
+    const { pageX: x, pageY: y } = e
+    const { clientWidth } = document.documentElement
+
+    // 臨時將 span 添加到 body 以獲取其寬度
+    $span.style.position = 'absolute'
+    $span.style.visibility = 'hidden'
+    document.body.appendChild($span)
+    const spanWidth = $span.offsetWidth
+
+    // 計算 left 位置，確保不會溢出屏幕左側或右側
+    const left = Math.min(Math.max(x - spanWidth / 2, 10), clientWidth - spanWidth - 10)
 
     $span.style.cssText = `
       z-index: 150;
-      top: ${top}px;
-      left: ${x - 20}px;
+      top: ${y - 20}px;
+      left: ${left}px;
       position: absolute;
       font-weight: bold;
       color: ${randomColor()};
       cursor: default;
       font-size: ${config.fontSize || 'inherit'};
       word-break: break-word;
+      visibility: visible;
     `
-    this.appendChild($span)
 
-    // animation
-    const initTime = new Date().getTime()
-    let opacityValue = 1
-
-    function animate () {
-      top--
-      opacityValue = opacityValue - 0.02
-      $span.style.top = top + 'px'
-      $span.style.opacity = opacityValue
-      const newTime = (new Date()).getTime()
-      const diff = newTime - initTime
-      if (diff < 600) {
-        window.requestAnimationFrame(animate)
+    const startTime = performance.now()
+    const animate = currentTime => {
+      const elapsed = currentTime - startTime
+      if (elapsed < 600) {
+        const progress = elapsed / 600
+        $span.style.top = `${y - 20 - progress * 20}px`
+        $span.style.opacity = 1 - progress
+        requestAnimationFrame(animate)
       } else {
         $span.remove()
       }
     }
-    window.requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
   })
 })()

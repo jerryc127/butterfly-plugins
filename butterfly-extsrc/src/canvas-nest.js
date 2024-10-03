@@ -1,88 +1,108 @@
-/**
- * From https://github.com/disjukr/activate-power-mode
- * Modify by Jerry
- */
-
-(function () {
+(() => {
   const cn = document.getElementById('canvas_nest')
   const mb = cn.getAttribute('mobile')
 
-  if (mb === 'false' && (/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent))) {
+  if (mb === 'false' && /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
     return
   }
 
-  function o (w, v, i) {
-    return w.getAttribute(v) || i
+  const getAttribute = (element, attr, defaultValue) => element.getAttribute(attr) || defaultValue
+
+  const createCanvas = () => {
+    const canvas = document.createElement('canvas')
+    canvas.style.cssText = `position:fixed;top:0;left:0;z-index:${settings.zIndex};opacity:${settings.opacity}`
+    document.body.appendChild(canvas)
+    return canvas
   }
 
-  function j (i) {
-    return document.getElementsByTagName(i)
+  const settings = {
+    zIndex: getAttribute(cn, 'zIndex', -1),
+    opacity: getAttribute(cn, 'opacity', 0.5),
+    color: getAttribute(cn, 'color', '0,0,0'),
+    count: getAttribute(cn, 'count', 99)
   }
 
-  function l () {
-    const v = cn
-    return {
-      z: o(v, 'zIndex', -1),
-      o: o(v, 'opacity', 0.5),
-      c: o(v, 'color', '0,0,0'),
-      n: o(v, 'count', 99)
+  const canvas = createCanvas()
+  const context = canvas.getContext('2d')
+  let width, height
+
+  const resizeCanvas = () => {
+    width = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+    height = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+  }
+
+  const particles = []
+  const mainParticle = { x: null, y: null, max: 20000 }
+
+  const updateParticles = () => {
+    context.clearRect(0, 0, width, height)
+    const allParticles = [mainParticle].concat(particles)
+
+    particles.forEach(particle => {
+      particle.x += particle.xa
+      particle.y += particle.ya
+      particle.xa *= particle.x > width || particle.x < 0 ? -1 : 1
+      particle.ya *= particle.y > height || particle.y < 0 ? -1 : 1
+
+      context.fillRect(particle.x - 0.5, particle.y - 0.5, 1, 1)
+
+      allParticles.forEach(otherParticle => {
+        if (particle !== otherParticle && otherParticle.x !== null && otherParticle.y !== null) {
+          const dx = particle.x - otherParticle.x
+          const dy = particle.y - otherParticle.y
+          const distanceSquared = dx * dx + dy * dy
+
+          if (distanceSquared < otherParticle.max) {
+            if (otherParticle === mainParticle && distanceSquared >= otherParticle.max / 2) {
+              particle.x -= 0.03 * dx
+              particle.y -= 0.03 * dy
+            }
+            const ratio = (otherParticle.max - distanceSquared) / otherParticle.max
+            context.beginPath()
+            context.lineWidth = ratio / 2
+            context.strokeStyle = `rgba(${settings.color},${ratio + 0.2})`
+            context.moveTo(particle.x, particle.y)
+            context.lineTo(otherParticle.x, otherParticle.y)
+            context.stroke()
+          }
+        }
+      })
+      allParticles.splice(allParticles.indexOf(particle), 1)
+    })
+
+    requestAnimationFrame(updateParticles)
+  }
+
+  const initParticles = () => {
+    for (let i = 0; i < settings.count; i++) {
+      const x = Math.random() * width
+      const y = Math.random() * height
+      const xa = 2 * Math.random() - 1
+      const ya = 2 * Math.random() - 1
+
+      particles.push({
+        x,
+        y,
+        xa,
+        ya,
+        max: 6000
+      })
     }
   }
 
-  function k () {
-    r = u.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, n = u.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+  resizeCanvas()
+  window.onresize = resizeCanvas
+
+  window.onmousemove = event => {
+    mainParticle.x = event.clientX
+    mainParticle.y = event.clientY
   }
 
-  function b () {
-    e.clearRect(0, 0, r, n)
-    const w = [f].concat(t)
-    let x, v, A, B, z, y
-    t.forEach(function (i) {
-      i.x += i.xa, i.y += i.ya, i.xa *= i.x > r || i.x < 0 ? -1 : 1, i.ya *= i.y > n || i.y < 0 ? -1 : 1, e.fillRect(i.x - 0.5, i.y - 0.5, 1, 1)
-      for (v = 0; v < w.length; v++) {
-        x = w[v]
-        if (i !== x && x.x !== null && x.y !== null) {
-          B = i.x - x.x, z = i.y - x.y, y = B * B + z * z
-          y < x.max && (x === f && y >= x.max / 2 && (i.x -= 0.03 * B, i.y -= 0.03 * z), A = (x.max - y) / x.max, e.beginPath(), e.lineWidth = A / 2, e.strokeStyle = 'rgba(' + s.c + ',' + (A + 0.2) + ')', e.moveTo(i.x, i.y), e.lineTo(x.x, x.y), e.stroke())
-        }
-      }
-      w.splice(w.indexOf(i), 1)
-    }), m(b)
+  window.onmouseout = () => {
+    mainParticle.x = null
+    mainParticle.y = null
   }
-  var u = document.createElement('canvas')
-  var s = l()
-  var e = u.getContext('2d')
-  let r; let n; var m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (i) {
-    window.setTimeout(i, 1000 / 45)
-  }
-  const a = Math.random
-  var f = {
-    x: null,
-    y: null,
-    max: 20000
-  }
-  u.style.cssText = 'position:fixed;top:0;left:0;z-index:' + s.z + ';opacity:' + s.o
-  j('body')[0].appendChild(u)
-  k(), window.onresize = k
-  window.onmousemove = function (i) {
-    i = i || window.event, f.x = i.clientX, f.y = i.clientY
-  }, window.onmouseout = function () {
-    f.x = null, f.y = null
-  }
-  for (var t = [], p = 0; s.n > p; p++) {
-    const h = a() * r
-    const g = a() * n
-    const q = 2 * a() - 1
-    const d = 2 * a() - 1
-    t.push({
-      x: h,
-      y: g,
-      xa: q,
-      ya: d,
-      max: 6000
-    })
-  }
-  setTimeout(function () {
-    b()
-  }, 100)
+
+  initParticles()
+  setTimeout(updateParticles, 100)
 })()

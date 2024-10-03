@@ -1,77 +1,79 @@
 /**
- * Copyright (c) 2016 hustcc
- * License: MIT
- * Version: v1.0.1
  * GitHub: https://github.com/hustcc/ribbon.js
  * Modify by Jerry
  **/
 
-(function () {
+(() => {
   const script = document.getElementById('ribbon')
-  const mb = script.getAttribute('mobile')
-  if (
-    mb === 'false' &&
-    /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
-  ) {
-    return
-  }
+  const isMobile = /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
+
+  if (script.getAttribute('mobile') === 'false' && isMobile) return
+
+  const getAttributeValue = (node, attrName, defaultValue) => Number(node.getAttribute(attrName)) || defaultValue
 
   const config = {
-    z: attr(script, 'zIndex', -1), // z-index
-    a: attr(script, 'alpha', 0.6), // alpha
-    s: attr(script, 'size', 90), // size
-    c: script.getAttribute('data-click')
-  }
-
-  function attr (node, attr, defaultValue) {
-    return Number(node.getAttribute(attr)) || defaultValue
+    zIndex: getAttributeValue(script, 'zIndex', -1),
+    alpha: getAttributeValue(script, 'alpha', 0.6),
+    size: getAttributeValue(script, 'size', 90),
+    clickToRedraw: script.getAttribute('data-click') !== 'false'
   }
 
   const canvas = document.createElement('canvas')
-  const g2d = canvas.getContext('2d')
-  const pr = window.devicePixelRatio || 1
-  const width = window.innerWidth
-  const height = window.innerHeight
-  const f = config.s
-  let q; let t
-  const m = Math
-  let r = 0
-  const pi = m.PI * 2
-  const cos = m.cos
-  const random = m.random
-  canvas.width = width * pr
-  canvas.height = height * pr
-  g2d.scale(pr, pr)
-  g2d.globalAlpha = config.a
-  canvas.style.cssText = 'opacity: ' + config.a + ';position:fixed;top:0;left:0;z-index: ' + config.z + ';width:100%;height:100%;pointer-events:none;'
-  // create canvas
-  document.getElementsByTagName('body')[0].appendChild(canvas)
+  const ctx = canvas.getContext('2d')
+  const { devicePixelRatio: dpr = 1 } = window
+  const { innerWidth: screenWidth, innerHeight: screenHeight } = window
+  const ribbonWidth = config.size
 
-  function redraw () {
-    g2d.clearRect(0, 0, width, height)
-    q = [{ x: 0, y: height * 0.7 + f }, { x: 0, y: height * 0.7 - f }]
-    while (q[1].x < width + f) draw(q[0], q[1])
+  canvas.width = screenWidth * dpr
+  canvas.height = screenHeight * dpr
+  ctx.scale(dpr, dpr)
+  ctx.globalAlpha = config.alpha
+
+  canvas.style.cssText = `opacity: ${config.alpha}; position: fixed; top: 0; left: 0; z-index: ${config.zIndex}; width: 100%; height: 100%; pointer-events: none;`
+  document.body.appendChild(canvas)
+
+  let points = [
+    { x: 0, y: screenHeight * 0.7 + ribbonWidth },
+    { x: 0, y: screenHeight * 0.7 - ribbonWidth }
+  ]
+  let angleOffset = 0
+  const TWO_PI = Math.PI * 2
+
+  const getRandomYPosition = (baseY) => {
+    const newY = baseY + (Math.random() * 2 - 1.1) * ribbonWidth
+    return (newY > screenHeight || newY < 0) ? getRandomYPosition(baseY) : newY
   }
-  function draw (i, j) {
-    g2d.beginPath()
-    g2d.moveTo(i.x, i.y)
-    g2d.lineTo(j.x, j.y)
-    const k = j.x + (random() * 2 - 0.25) * f; const n = line(j.y)
-    g2d.lineTo(k, n)
-    g2d.closePath()
-    r -= pi / -50
-    g2d.fillStyle = '#' + (cos(r) * 127 + 128 << 16 | cos(r + pi / 3) * 127 + 128 << 8 | cos(r + pi / 3 * 2) * 127 + 128).toString(16)
-    g2d.fill()
-    q[0] = q[1]
-    q[1] = { x: k, y: n }
+
+  const drawRibbonSegment = (startPoint, endPoint) => {
+    ctx.beginPath()
+    ctx.moveTo(startPoint.x, startPoint.y)
+    ctx.lineTo(endPoint.x, endPoint.y)
+    const nextX = endPoint.x + (Math.random() * 2 - 0.25) * ribbonWidth
+    const nextY = getRandomYPosition(endPoint.y)
+    ctx.lineTo(nextX, nextY)
+    ctx.closePath()
+    angleOffset -= TWO_PI / -50
+    ctx.fillStyle = '#' + ((Math.cos(angleOffset) * 127 + 128 << 16) |
+                           (Math.cos(angleOffset + TWO_PI / 3) * 127 + 128 << 8) |
+                           (Math.cos(angleOffset + TWO_PI / 3 * 2) * 127 + 128)).toString(16)
+    ctx.fill()
+    points[0] = points[1]
+    points[1] = { x: nextX, y: nextY }
   }
-  function line (p) {
-    t = p + (random() * 2 - 1.1) * f
-    return (t > height || t < 0) ? line(p) : t
+
+  const redrawRibbon = () => {
+    ctx.clearRect(0, 0, screenWidth, screenHeight)
+    points = [
+      { x: 0, y: screenHeight * 0.7 + ribbonWidth },
+      { x: 0, y: screenHeight * 0.7 - ribbonWidth }
+    ]
+    while (points[1].x < screenWidth + ribbonWidth) drawRibbonSegment(points[0], points[1])
   }
-  if (config.c !== 'false') {
-    document.onclick = redraw
-    document.ontouchstart = redraw
+
+  if (config.clickToRedraw) {
+    document.onclick = redrawRibbon
+    document.ontouchstart = redrawRibbon
   }
-  redraw()
+
+  redrawRibbon()
 })()

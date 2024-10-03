@@ -1,343 +1,203 @@
-/**
- * From https://github.com/disjukr/activate-power-mode
- * Modify by Jerry
- */
+const POWERMODE = (() => {
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  const particles = []
+  let particlePointer = 0
+  let rendering = false
 
-;(function webpackUniversalModuleDefinition (root, factory) {
-  if (typeof exports === 'object' && typeof module === 'object') { module.exports = factory() } else if (typeof define === 'function' && define.amd) define([], factory)
-  else if (typeof exports === 'object') exports.POWERMODE = factory()
-  else root.POWERMODE = factory()
-})(this, function () {
-  return /******/ (function (modules) {
-    // webpackBootstrap
-    /******/ // The module cache
-    /******/ const installedModules = {} // The require function
+  const initCanvas = () => {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:999999'
+    document.body.appendChild(canvas)
+  }
 
-    /******/ /******/ function __webpack_require__ (moduleId) {
-      /******/ // Check if module is in cache
-      /******/ if (installedModules[moduleId])
-      /******/ { return installedModules[moduleId].exports } // Create a new module (and put it into the cache)
+  const resizeCanvas = () => {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
 
-      /******/ /******/ const module = (installedModules[moduleId] = {
-        /******/ exports: {},
-        /******/ id: moduleId,
-        /******/ loaded: false
-        /******/
-      }) // Execute the module function
+  const getRandom = (min, max) => Math.random() * (max - min) + min
 
-      /******/ /******/ modules[moduleId].call(
-        module.exports,
-        module,
-        module.exports,
-        __webpack_require__
-      ) // Flag the module as loaded
+  const getColor = (el) => {
+    if (POWERMODE.colorful) {
+      const hue = getRandom(0, 360)
+      return `hsla(${getRandom(hue - 10, hue + 10)}, 100%, ${getRandom(50, 80)}%, 1)`
+    }
+    return window.getComputedStyle(el).color
+  }
 
-      /******/ /******/ module.loaded = true // Return the exports of the module
-
-      /******/ /******/ return module.exports
-      /******/
-    } // expose the modules object (__webpack_modules__)
-
-    /******/ /******/ __webpack_require__.m = modules // expose the module cache
-
-    /******/ /******/ __webpack_require__.c = installedModules // __webpack_public_path__
-
-    /******/ /******/ __webpack_require__.p = '' // Load entry module and return exports
-
-    /******/ /******/ return __webpack_require__(0)
-    /******/
-  })(
-    /************************************************************************/
-    /******/ [
-      /* 0 */
-      /***/ function (module, exports, __webpack_require__) {
-        'use strict'
-
-        if (
-          !POWERMODE.mobile &&
-          /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)
-        ) return
-
-        const canvas = document.createElement('canvas')
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        canvas.style.cssText =
-          'position:fixed;top:0;left:0;pointer-events:none;z-index:999999'
-        window.addEventListener('resize', function () {
-          canvas.width = window.innerWidth
-          canvas.height = window.innerHeight
-        })
-        document.body.appendChild(canvas)
-        const context = canvas.getContext('2d')
-        const particles = []
-        let particlePointer = 0
-        let rendering = false
-
-        POWERMODE.shake = true
-
-        function getRandom (min, max) {
-          return Math.random() * (max - min) + min
-        }
-
-        function getColor (el) {
-          if (POWERMODE.colorful) {
-            const u = getRandom(0, 360)
-            return (
-              'hsla(' +
-              getRandom(u - 10, u + 10) +
-              ', 100%, ' +
-              getRandom(50, 80) +
-              '%, ' +
-              1 +
-              ')'
-            )
-          } else {
-            return window.getComputedStyle(el).color
-          }
-        }
-
-        function getCaret () {
-          const el = document.activeElement
-          let bcr
-          if (
-            el.tagName === 'TEXTAREA' ||
-            (el.tagName === 'INPUT' && (el.getAttribute('type') === 'text' || el.getAttribute('type') === 'email'))
-          ) {
-            const offset = __webpack_require__(1)(el, el.selectionEnd)
-            bcr = el.getBoundingClientRect()
-            return {
-              x: offset.left + bcr.left,
-              y: offset.top + bcr.top,
-              color: getColor(el)
-            }
-          }
-          const selection = window.getSelection()
-          if (selection.rangeCount) {
-            const range = selection.getRangeAt(0)
-            let startNode = range.startContainer
-            if (startNode.nodeType === document.TEXT_NODE) {
-              startNode = startNode.parentNode
-            }
-            bcr = range.getBoundingClientRect()
-            return {
-              x: bcr.left,
-              y: bcr.top,
-              color: getColor(startNode)
-            }
-          }
-          return { x: 0, y: 0, color: 'transparent' }
-        }
-
-        function createParticle (x, y, color) {
-          return {
-            x: x,
-            y: y,
-            alpha: 1,
-            color: color,
-            velocity: {
-              x: -1 + Math.random() * 2,
-              y: -3.5 + Math.random() * 2
-            }
-          }
-        }
-
-        function POWERMODE () {
-          // spawn particles
-          const caret = getCaret()
-          let numParticles = 5 + Math.round(Math.random() * 10)
-          while (numParticles--) {
-            particles[particlePointer] = createParticle(
-              caret.x,
-              caret.y,
-              caret.color
-            )
-            particlePointer = (particlePointer + 1) % 500
-          }
-          // shake screen
-          if (POWERMODE.shake) {
-            const intensity = 1 + 2 * Math.random()
-            const x = intensity * (Math.random() > 0.5 ? -1 : 1)
-            const y = intensity * (Math.random() > 0.5 ? -1 : 1)
-            document.body.style.marginLeft = x + 'px'
-            document.body.style.marginTop = y + 'px'
-            setTimeout(function () {
-              document.body.style.marginLeft = ''
-              document.body.style.marginTop = ''
-            }, 75)
-          }
-
-          if (!rendering) {
-            requestAnimationFrame(loop)
-          }
-        }
-        POWERMODE.colorful = false
-
-        function loop () {
-          rendering = true
-          context.clearRect(0, 0, canvas.width, canvas.height)
-          let rendered = false
-          const rect = canvas.getBoundingClientRect()
-          for (let i = 0; i < particles.length; ++i) {
-            const particle = particles[i]
-            if (particle.alpha <= 0.1) continue
-            particle.velocity.y += 0.075
-            particle.x += particle.velocity.x
-            particle.y += particle.velocity.y
-            particle.alpha *= 0.96
-            context.globalAlpha = particle.alpha
-            context.fillStyle = particle.color
-            context.fillRect(
-              Math.round(particle.x - 1.5) - rect.left,
-              Math.round(particle.y - 1.5) - rect.top,
-              3,
-              3
-            )
-            rendered = true
-          }
-          if (rendered) {
-            requestAnimationFrame(loop)
-          } else {
-            rendering = false
-          }
-        }
-
-        module.exports = POWERMODE
-
-        /***/
-      },
-      /* 1 */
-      /***/ function (module, exports) {
-        /* jshint browser: true */
-
-        ;(function () {
-          // The properties that we copy into a mirrored div.
-          // Note that some browsers, such as Firefox,
-          // do not concatenate properties, i.e. padding-top, bottom etc. -> padding,
-          // so we have to do every single property specifically.
-          const properties = [
-            'direction', // RTL support
-            'boxSizing',
-            'width', // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
-            'height',
-            'overflowX',
-            'overflowY', // copy the scrollbar for IE
-
-            'borderTopWidth',
-            'borderRightWidth',
-            'borderBottomWidth',
-            'borderLeftWidth',
-            'borderStyle',
-
-            'paddingTop',
-            'paddingRight',
-            'paddingBottom',
-            'paddingLeft',
-
-            // https://developer.mozilla.org/en-US/docs/Web/CSS/font
-            'fontStyle',
-            'fontVariant',
-            'fontWeight',
-            'fontStretch',
-            'fontSize',
-            'fontSizeAdjust',
-            'lineHeight',
-            'fontFamily',
-
-            'textAlign',
-            'textTransform',
-            'textIndent',
-            'textDecoration', // might not make a difference, but better be safe
-
-            'letterSpacing',
-            'wordSpacing',
-
-            'tabSize',
-            'MozTabSize'
-          ]
-
-          const isFirefox = window.mozInnerScreenX != null
-
-          function getCaretCoordinates (element, position, options) {
-            const debug = (options && options.debug) || false
-            if (debug) {
-              const el = document.querySelector(
-                '#input-textarea-caret-position-mirror-div'
-              )
-              if (el) {
-                el.parentNode.removeChild(el)
-              }
-            }
-
-            // mirrored div
-            const div = document.createElement('div')
-            div.id = 'input-textarea-caret-position-mirror-div'
-            document.body.appendChild(div)
-
-            const style = div.style
-            const computed = window.getComputedStyle
-              ? getComputedStyle(element)
-              : element.currentStyle // currentStyle for IE < 9
-
-            // default textarea styles
-            style.whiteSpace = 'pre-wrap'
-            if (element.nodeName !== 'INPUT') style.wordWrap = 'break-word' // only for textarea-s
-
-            // position off-screen
-            style.position = 'absolute' // required to return coordinates properly
-            if (!debug) style.visibility = 'hidden' // not 'display: none' because we want rendering
-
-            // transfer the element's properties to the div
-            properties.forEach(function (prop) {
-              style[prop] = computed[prop]
-            })
-
-            if (isFirefox) {
-              // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
-              if (element.scrollHeight > parseInt(computed.height)) { style.overflowY = 'scroll' }
-            } else {
-              style.overflow = 'hidden' // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
-            }
-
-            div.textContent = element.value.substring(0, position)
-            // the second special handling for input type="text" vs textarea: spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037
-            if (element.nodeName === 'INPUT') { div.textContent = div.textContent.replace(/\s/g, '\u00a0') }
-
-            const span = document.createElement('span')
-            // Wrapping must be replicated *exactly*, including when a long word gets
-            // onto the next line, with whitespace at the end of the line before (#7).
-            // The  *only* reliable way to do that is to copy the *entire* rest of the
-            // textarea's content into the <span> created at the caret position.
-            // for inputs, just '.' would be enough, but why bother?
-            span.textContent = element.value.substring(position) || '.' // || because a completely empty faux span doesn't render at all
-            div.appendChild(span)
-
-            const coordinates = {
-              top: span.offsetTop + parseInt(computed.borderTopWidth),
-              left: span.offsetLeft + parseInt(computed.borderLeftWidth)
-            }
-
-            if (debug) {
-              span.style.backgroundColor = '#aaa'
-            } else {
-              document.body.removeChild(div)
-            }
-
-            return coordinates
-          }
-
-          if (
-            typeof module !== 'undefined' &&
-            typeof module.exports !== 'undefined'
-          ) {
-            module.exports = getCaretCoordinates
-          } else {
-            window.getCaretCoordinates = getCaretCoordinates
-          }
-        })()
-
-        /***/
-      }
-      /******/
+  const getCaretCoordinates = (element, position) => {
+    const properties = [
+      'direction', 'boxSizing', 'width', 'height', 'overflowX', 'overflowY',
+      'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderStyle',
+      'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+      'fontStyle', 'fontVariant', 'fontWeight', 'fontStretch', 'fontSize', 'fontSizeAdjust',
+      'lineHeight', 'fontFamily', 'textAlign', 'textTransform', 'textIndent', 'textDecoration',
+      'letterSpacing', 'wordSpacing', 'tabSize', 'MozTabSize'
     ]
-  )
-})
+
+    const isFirefox = window.mozInnerScreenX != null
+    const div = document.createElement('div')
+    div.id = 'input-textarea-caret-position-mirror-div'
+    document.body.appendChild(div)
+
+    const style = div.style
+    const computed = window.getComputedStyle ? getComputedStyle(element) : element.currentStyle
+
+    style.whiteSpace = 'pre-wrap'
+    if (element.nodeName !== 'INPUT') {
+      style.wordWrap = 'break-word'
+    }
+
+    style.position = 'absolute'
+    style.visibility = 'hidden'
+
+    properties.forEach(prop => {
+      style[prop] = computed[prop]
+    })
+
+    if (isFirefox) {
+      if (element.scrollHeight > parseInt(computed.height)) { style.overflowY = 'scroll' }
+    } else {
+      style.overflow = 'hidden'
+    }
+
+    div.textContent = element.value.substring(0, position)
+    if (element.nodeName === 'INPUT') {
+      div.textContent = div.textContent.replace(/\s/g, '\u00a0')
+    }
+
+    const span = document.createElement('span')
+    span.textContent = element.value.substring(position) || '.'
+    div.appendChild(span)
+
+    const coordinates = {
+      top: span.offsetTop + parseInt(computed.borderTopWidth),
+      left: span.offsetLeft + parseInt(computed.borderLeftWidth)
+    }
+
+    document.body.removeChild(div)
+
+    return coordinates
+  }
+
+  const getCaret = () => {
+    const el = document.activeElement
+    if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && ['text', 'email'].includes(el.type))) {
+      const { left, top } = el.getBoundingClientRect()
+      const offset = getCaretCoordinates(el, el.selectionEnd)
+      return { x: offset.left + left, y: offset.top + top, color: getColor(el), element: el }
+    }
+    const selection = window.getSelection()
+    if (selection.rangeCount) {
+      const range = selection.getRangeAt(0)
+      const startNode = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentNode : range.startContainer
+      const { left, top } = range.getBoundingClientRect()
+      return { x: left, y: top, color: getColor(startNode), element: startNode }
+    }
+    return { x: 0, y: 0, color: 'transparent', element: null }
+  }
+
+  const createParticle = (x, y, color) => ({
+    x,
+    y,
+    alpha: 1,
+    color,
+    velocity: { x: -1 + Math.random() * 2, y: -3.5 + Math.random() * 2 }
+  })
+
+  const spawnParticles = (caret) => {
+    const numParticles = 5 + Math.round(Math.random() * 10)
+    for (let i = 0; i < numParticles; i++) {
+      particles[particlePointer] = createParticle(caret.x, caret.y, caret.color)
+      particlePointer = (particlePointer + 1) % 500
+    }
+  }
+
+  const shakeScreen = (element) => {
+    if (POWERMODE.shake) {
+      const intensity = 1 + 2 * Math.random()
+      const x = intensity * (Math.random() > 0.5 ? -1 : 1)
+      const y = intensity * (Math.random() > 0.5 ? -1 : 1)
+
+      document.body.style.marginLeft = `${x}px`
+      document.body.style.marginTop = `${y}px`
+
+      if (element && (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA')) {
+        const originalPosition = element.style.position
+        const originalTransition = element.style.transition
+        element.style.position = 'relative'
+        element.style.transition = 'none'
+        element.style.transform = `translate(${x}px, ${y}px)`
+
+        setTimeout(() => {
+          element.style.position = originalPosition
+          element.style.transition = originalTransition
+          element.style.transform = ''
+          document.body.style.marginLeft = ''
+          document.body.style.marginTop = ''
+        }, 75)
+      } else {
+        setTimeout(() => {
+          document.body.style.marginLeft = ''
+          document.body.style.marginTop = ''
+        }, 75)
+      }
+    }
+  }
+
+  const loop = () => {
+    rendering = true
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    let hasActiveParticles = false
+    const rect = canvas.getBoundingClientRect()
+
+    particles.forEach(particle => {
+      if (particle.alpha <= 0.1) return
+      particle.velocity.y += 0.075
+      particle.x += particle.velocity.x
+      particle.y += particle.velocity.y
+      particle.alpha *= 0.96
+      ctx.globalAlpha = particle.alpha
+      ctx.fillStyle = particle.color
+      ctx.fillRect(
+        Math.round(particle.x - 1.5) - rect.left,
+        Math.round(particle.y - 1.5) - rect.top,
+        3, 3
+      )
+      hasActiveParticles = true
+    })
+
+    if (hasActiveParticles) {
+      requestAnimationFrame(loop)
+    } else {
+      rendering = false
+    }
+  }
+
+  const powerMode = {
+    colorful: false,
+    shake: true,
+    mobile: false,
+    init: () => {
+      if (!powerMode.mobile && /Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) return
+      initCanvas()
+      window.addEventListener('resize', resizeCanvas)
+    },
+    explode: () => {
+      const caret = getCaret()
+      spawnParticles(caret)
+      shakeScreen(caret.element)
+      if (!rendering) requestAnimationFrame(loop)
+    }
+  }
+
+  return powerMode
+})()
+
+// 初始化
+POWERMODE.init()
+
+// 使用示例
+document.body.addEventListener('input', POWERMODE.explode)
