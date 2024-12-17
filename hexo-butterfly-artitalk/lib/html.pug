@@ -1,16 +1,25 @@
 #artitalk_main
 script.
-  (()=>{
-    const init = () => {
-      new Artitalk(Object.assign({
+  (() => {
+    const loadScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.onload = resolve
+      script.onerror = reject
+      document.body.appendChild(script)
+    })
+
+    const initializeArtitalk = () => {
+      new Artitalk({
         appId: '#{appId}',
         appKey: '#{appKey}',
-      }, !{option}))
+        ...!{option}
+      })
     }
 
     if (typeof Artitalk === 'function') {
-      init()
+      initializeArtitalk()
     } else {
-      getScript('!{js}').then(init)
+      loadScript('!{js}').then(initializeArtitalk)
     }
   })()

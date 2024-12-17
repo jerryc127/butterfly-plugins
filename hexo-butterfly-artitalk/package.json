@@ -1,6 +1,6 @@
 {
   "name": "hexo-butterfly-artitalk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Artitalk plugin for theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "author": "Jerry <i@immyw.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "pug": "^3.0.2"
+    "pug": "^3.0.3"
   },
   "repository": {
     "type" : "git",
