@@ -35,8 +35,6 @@ hexo.extend.generator.register('pluginsSrc', () => {
     process.exit(-1)
   }
 
-  hexo.log.info('Start to move the source code of the plugins to the public directory.')
-
   const plugins = yaml.load(readFileSync(path.join(hexo.theme_dir, '/plugins.yml')))
   const dataObj = []
   const errorObj = []
@@ -114,6 +112,5 @@ hexo.extend.generator.register('pluginsSrc', () => {
     lookForFiles(path.join(getModulePath(value.name), filePath), filePath)
   }
 
-  hexo.log.info('Move the source code of the plugins to the public directory successfully.')
   return dataObj
 })
