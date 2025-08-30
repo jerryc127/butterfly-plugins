@@ -5,68 +5,64 @@ const yaml = require('js-yaml')
 const { readFileSync, statSync, readdirSync } = require('fs')
 
 hexo.extend.generator.register('pluginsSrc', () => {
-  const { third_party_provider } = hexo.theme.config.CDN
+  const { third_party_provider } = hexo.theme.config.CDN || {}
   if (third_party_provider && third_party_provider !== 'local') return
 
-  const compareVersions = (version1, version2) => {
-    const v1 = version1.split('.').map(Number)
-    const v2 = version2.split('.').map(Number)
-    
-    for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
-      const num1 = v1[i] || 0
-      const num2 = v2[i] || 0
-      
-      if (num1 < num2) {
-        return -1
-      } else if (num1 > num2) {
-        return 1
-      }
-    }
-    return 0
-  }
+  hexo.log.info(
+    '[hexo-butterfly-extjs] 提醒：主題更新時，hexo-butterfly-extjs 也會跟著更新。' +
+    '如果遇到插件問題，請升級主題到最新版或者把插件降級。'
+  )
 
-  const { version } = require((path.join(hexo.theme_dir, 'package.json')))
-  const limitVer = '4.8'
+  hexo.log.info(
+    '[hexo-butterfly-extjs] Notice: When the theme updates, hexo-butterfly-extjs will also be updated. ' +
+    'If you encounter plugin issues, please upgrade the theme to the latest version or downgrade the plugin.'
+  )
 
-  if (compareVersions(version, limitVer) < 0) {
-    hexo.log.warn('Please update theme to V4.8.0 or higher')
-    hexo.log.warn('Or install hexo-butterfly-extjs to old version')
-    hexo.log.warn('npm install hexo-butterfly-extjs@1.3.4')
-    process.exit(-1)
-  }
+  const plugins = yaml.load(
+    readFileSync(path.join(hexo.theme_dir, 'plugins.yml'))
+  )
 
-  const plugins = yaml.load(readFileSync(path.join(hexo.theme_dir, '/plugins.yml')))
   const dataObj = []
   const errorObj = []
+  const fileCache = new Map() // ← 快取池
 
   const getModulePath = moduleName => {
     try {
       const packagePath = require.resolve(moduleName)
-      // use regex to get the path of the node_modules
       const match = packagePath.match(/(.*[\\/]node_modules)(?=[\\/])/)
       return match ? match[0] : hexo.plugin_dir
-    } catch (error) {
+    } catch {
       return hexo.plugin_dir
     }
   }
 
-  for (const value of Object.values(plugins)) {
-    const fullPath = `${value.name}/${value.file}`
-    try {
-      dataObj.push({
-        path: `pluginsSrc/${fullPath}`,
-        data: readFileSync(path.join(getModulePath(value.name), fullPath))
-      })
-    } catch (error) {
-      errorObj.push(`The file does not exist: ${fullPath}`)
+  const readFileCached = absPath => {
+    if (!fileCache.has(absPath)) {
+      fileCache.set(absPath, readFileSync(absPath))
     }
+    return fileCache.get(absPath)
   }
 
-  if (errorObj.length > 0) {
-    hexo.log.warn('Please reinstall hexo-butterfly-extjs.')
-    for(const value of errorObj) {
-      hexo.log.warn(value)
+  const pushFile = (targetPath, absPath) => {
+    dataObj.push({
+      path: `pluginsSrc/${targetPath}`,
+      data: readFileCached(absPath)
+    })
+  }
+
+  Object.values(plugins).forEach(value => {
+    const relPath = `${value.name}/${value.file}`
+    const absPath = path.join(getModulePath(value.name), relPath)
+    try {
+      pushFile(relPath, absPath)
+    } catch {
+      errorObj.push(`Missing file: ${relPath}`)
     }
+  })
+
+  if (errorObj.length) {
+    hexo.log.warn('Please reinstall hexo-butterfly-extjs:')
+    errorObj.forEach(msg => hexo.log.warn(msg))
     process.exit(-1)
   }
 
@@ -80,37 +76,48 @@ hexo.extend.generator.register('pluginsSrc', () => {
       name: 'butterfly-extsrc',
       path: 'sharejs/dist/fonts'
     },
-    mathjax_font: {
+    mathjax: {
       name: 'mathjax',
-      path: 'es5/output/chtml/fonts'
+      path: '.',
+      enable: hexo.theme.config.math.use === 'mathjax'
+    },
+    mathjax_font: {
+      name: '@mathjax/mathjax-newcm-font',
+      path: '.',
+      enable: hexo.theme.config.math.use === 'mathjax'
+    },
+    mathjax_bbm_font: {
+      name: '@mathjax/mathjax-mhchem-font-extension',
+      path: '.',
+      enable: hexo.theme.config.math.use === 'mathjax'
     },
     katex_font: {
       name: 'katex',
-      path: 'dist/fonts'
+      path: 'dist/fonts',
+      enable: hexo.theme.config.math.use === 'katex'
     }
   }
 
-  const lookForFiles = (path, origin) => {
-    readdirSync(path).forEach(sub => {
-      const subPath = `${path}/${sub}`
+  const lookForFiles = (dirPath, origin) => {
+    readdirSync(dirPath).forEach(sub => {
+      const subPath = path.join(dirPath, sub)
       const name = `${origin}/${sub}`
       const stat = statSync(subPath)
 
       if (stat.isDirectory()) {
         lookForFiles(subPath, name)
       } else if (stat.isFile()) {
-        dataObj.push({
-          path: `pluginsSrc/${name}`,
-          data: readFileSync(subPath)
-        })
+        pushFile(name, subPath)
       }
     })
   }
 
-  for (const value of Object.values(folders)) {
-    const filePath = path.join(value.name, value.path)
-    lookForFiles(path.join(getModulePath(value.name), filePath), filePath)
-  }
+  Object.values(folders)
+    .filter(f => f.enable !== false)
+    .forEach(f => {
+      const basePath = path.join(getModulePath(f.name), f.name, f.path)
+      lookForFiles(basePath, path.join(f.name, f.path))
+    })
 
   return dataObj
 })
