@@ -18,20 +18,32 @@
  */
 ;(function (window, document, undefined) {
 
-    // Initialize a variables.
+    'use strict';
 
-    var Array$indexOf = Array.prototype.indexOf;
-    var Object$assign = Object.assign;
+    // Constants
+    const MOBILE_BREAKPOINT = 768;
+    const WECHAT_USER_AGENT = /MicroMessenger/i;
 
-    var runningInWeChat = /MicroMessenger/i.test(navigator.userAgent);
-    var isMobileScreen = document.documentElement.clientWidth <= 768;
+    // Initialize variables
+    const Array$indexOf = Array.prototype.indexOf;
+    const Object$assign = Object.assign;
 
-    var image = (document.images[0] || 0).src || '';
-    var site = getMetaContentByName('site') || getMetaContentByName('Site') || document.title;
-    var title = getMetaContentByName('title') || getMetaContentByName('Title') || document.title;
-    var description = getMetaContentByName('description') || getMetaContentByName('Description') || '';
+    const runningInWeChat = WECHAT_USER_AGENT.test(navigator.userAgent);
+    const isMobileScreen = document.documentElement.clientWidth <= MOBILE_BREAKPOINT;
 
-    var defaults = {
+    // Get page metadata
+    const getPageMeta = () => {
+        const image = (document.images[0] || {}).src || '';
+        const site = getMetaContentByName('site') || getMetaContentByName('Site') || document.title;
+        const title = getMetaContentByName('title') || getMetaContentByName('Title') || document.title;
+        const description = getMetaContentByName('description') || getMetaContentByName('Description') || '';
+
+        return { image, site, title, description };
+    };
+
+    const { image, site, title, description } = getPageMeta();
+
+    const defaults = {
         url: location.href,
         origin: location.origin,
         source: site,
@@ -46,22 +58,22 @@
         wechatQrcodeHelper: '<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>',
         wechatQrcodeSize: 100,
 
-        sites: ['weibo', 'qq', 'wechat', 'douban', 'qzone', 'linkedin', 'facebook', 'twitter', 'google'],
+        sites: ['weibo', 'qq', 'wechat', 'qzone', 'linkedin', 'facebook', 'x', 'twitter'],
         mobileSites: [],
         disabled: [],
         initialized: false
     };
 
-    var templates = {
+    // Share URL templates
+    const templates = {
         qzone: 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={{URL}}&title={{TITLE}}&desc={{DESCRIPTION}}&summary={{SUMMARY}}&site={{SOURCE}}&pics={{IMAGE}}',
         qq: 'http://connect.qq.com/widget/shareqq/index.html?url={{URL}}&title={{TITLE}}&source={{SOURCE}}&desc={{DESCRIPTION}}&pics={{IMAGE}}&summary="{{SUMMARY}}"',
         weibo: 'https://service.weibo.com/share/share.php?url={{URL}}&title={{TITLE}}&pic={{IMAGE}}&appkey={{WEIBOKEY}}',
         wechat: 'javascript:',
-        douban: 'http://shuo.douban.com/!service/share?href={{URL}}&name={{TITLE}}&text={{DESCRIPTION}}&image={{IMAGE}}&starid=0&aid=0&style=11',
         linkedin: 'http://www.linkedin.com/shareArticle?mini=true&ro=true&title={{TITLE}}&url={{URL}}&summary={{SUMMARY}}&source={{SOURCE}}&armin=armin',
         facebook: 'https://www.facebook.com/sharer/sharer.php?u={{URL}}',
-        twitter: 'https://twitter.com/intent/tweet?text={{TITLE}}&url={{URL}}&via={{ORIGIN}}',
-        google: 'https://plus.google.com/share?url={{URL}}'
+        x: 'https://x.com/intent/tweet?text={{TITLE}}&url={{URL}}&via={{ORIGIN}}',
+        twitter: 'https://twitter.com/intent/tweet?text={{TITLE}}&url={{URL}}&via={{ORIGIN}}'
     };
 
 
@@ -99,7 +111,7 @@
      * @return {Void}
      */
     function share(elem, options) {
-        var data = mixin({}, defaults, options || {}, dataset(elem));
+        const data = mixin({}, defaults, options || {}, dataset(elem));
 
         if (data.imageSelector) {
             data.image = querySelectorAlls(data.imageSelector).map(function(item) {
@@ -122,12 +134,12 @@
      * @param {Object} data
      */
     function createIcons(elem, data) {
-        var sites = getSites(data);
-        var isPrepend = data.mode == 'prepend';
+        const sites = getSites(data);
+        const isPrepend = data.mode == 'prepend';
 
         each(isPrepend ? sites.reverse() : sites, function (name) {
-            var url = makeUrl(name, data);
-            var link = data.initialized ? getElementsByClassName(elem, 'icon-' + name) : createElementByString('<a class="social-share-icon icon-' + name + '"></a>');
+            const url = makeUrl(name, data);
+            const link = data.initialized ? getElementsByClassName(elem, 'icon-' + name) : createElementByString('<a class="social-share-icon icon-' + name + '"></a>');
 
             if (!link.length) {
                 return true;
@@ -155,14 +167,14 @@
      * @param {Object} data
      */
     function createWechat (elem, data) {
-        var wechat = getElementsByClassName(elem, 'icon-wechat', 'a');
+        const wechat = getElementsByClassName(elem, 'icon-wechat', 'a');
 
         if (wechat.length === 0) {
             return false;
         }
 
-        var elems = createElementByString('<div class="wechat-qrcode"><h4>' + data.wechatQrcodeTitle + '</h4><div class="qrcode"></div><div class="help">' + data.wechatQrcodeHelper + '</div></div>');
-        var qrcode = getElementsByClassName(elems[0], 'qrcode', 'div');
+        const elems = createElementByString('<div class="wechat-qrcode"><h4>' + data.wechatQrcodeTitle + '</h4><div class="qrcode"></div><div class="help">' + data.wechatQrcodeHelper + '</div></div>');
+        const qrcode = getElementsByClassName(elems[0], 'qrcode', 'div');
 
         new QRCode(qrcode[0], {text: data.url, width: data.wechatQrcodeSize, height: data.wechatQrcodeSize});
         wechat[0].appendChild(elems[0]);
@@ -181,8 +193,8 @@
             data['mobileSites'] = data['sites'];
         }
 
-        var sites = (isMobileScreen ? data['mobileSites'] : data['sites']).slice(0);
-        var disabled = data['disabled'];
+        let sites = (isMobileScreen ? data['mobileSites'] : data['sites']).slice(0);
+        let disabled = data['disabled'];
 
         if (typeof sites == 'string') {
             sites = sites.split(/\s*,\s*/);
@@ -219,10 +231,10 @@
         }
 
         return templates[name].replace(/\{\{(\w)(\w*)\}\}/g, function (m, fix, key) {
-            var nameKey = name + fix + key.toLowerCase();
-            key = (fix + key).toLowerCase();
+            const nameKey = name + fix + key.toLowerCase();
+            const fullKey = (fix + key).toLowerCase();
 
-            return encodeURIComponent((data[nameKey] === undefined ? data[key] : data[nameKey]) || '');
+            return encodeURIComponent((data[nameKey] === undefined ? data[fullKey] : data[nameKey]) || '');
         });
     }
 
@@ -247,16 +259,16 @@
      * @returns {Array}
      */
     function selector(str) {
-        var elems = [];
+        const elems = [];
 
         each(str.split(/\s*,\s*/), function(s) {
-            var m = s.match(/([#.])(\w+)/);
+            const m = s.match(/([#.])(\w+)/);
             if (m === null) {
                 throw Error('Supports only simple single #ID or .CLASS selector.');
             }
 
             if (m[1]) {
-                var elem = document.getElementById(m[2]);
+                const elem = document.getElementById(m[2]);
 
                 if (elem) {
                     elems.push(elem);
@@ -278,8 +290,8 @@
      */
     function addClass(elem, value) {
         if (value && typeof value === "string") {
-            var classNames = (elem.className + ' ' + value).split(/\s+/);
-            var setClass = ' ';
+            const classNames = (elem.className + ' ' + value).split(/\s+/);
+            let setClass = ' ';
 
             each(classNames, function (className) {
                 if (setClass.indexOf(' ' + className + ' ') < 0) {
@@ -318,12 +330,12 @@
             return elem.getElementsByClassName(name);
         }
 
-        var elements = [];
-        var elems = elem.getElementsByTagName(tag || '*');
-        name = ' ' + name + ' ';
+        const elements = [];
+        const elems = elem.getElementsByTagName(tag || '*');
+        const className = ' ' + name + ' ';
 
         each(elems, function (elem) {
-            if ((' ' + (elem.className || '') + ' ').indexOf(name) >= 0) {
+            if ((' ' + (elem.className || '') + ' ').indexOf(className) >= 0) {
                 elements.push(elem);
             }
         });
@@ -340,7 +352,7 @@
      * @returns {NodeList}
      */
     function createElementByString(str) {
-        var div = document.createElement('div');
+        const div = document.createElement('div');
         div.innerHTML = str;
 
         return div.childNodes;
@@ -353,13 +365,13 @@
      * @returns {Object}
      */
     function mixin() {
-        var args = arguments;
+        const args = arguments;
 
         if (Object$assign) {
             return Object$assign.apply(null, args);
         }
 
-        var target = {};
+        const target = {};
 
         each(args, function (it) {
             each(it, function (v, k) {
@@ -383,11 +395,11 @@
             return JSON.parse(JSON.stringify(elem.dataset));
         }
 
-        var target = {};
+        const target = {};
 
         if (elem.hasAttributes()) {
             each(elem.attributes, function (attr) {
-                var name = attr.name;
+                let name = attr.name;
                 if (name.indexOf('data-') !== 0) {
                     return true;
                 }
@@ -417,7 +429,7 @@
      * @returns {Number}
      */
     function inArray(elem, arr, i) {
-        var len;
+        let len;
 
         if (arr) {
             if (Array$indexOf) {
@@ -448,10 +460,10 @@
      * @returns {*}
      */
     function each(obj, callback) {
-        var length = obj.length;
+        const length = obj.length;
 
         if (length === undefined) {
-            for (var name in obj) {
+            for (const name in obj) {
                 if (obj.hasOwnProperty(name)) {
                     if (callback.call(obj[name], obj[name], name) === false) {
                         break;
@@ -459,7 +471,7 @@
                 }
             }
         } else {
-            for (var i = 0; i < length; i++) {
+            for (let i = 0; i < length; i++) {
                 if (callback.call(obj[i], obj[i], i) === false) {
                     break;
                 }
@@ -476,8 +488,8 @@
      * @link https://github.com/jed/alReady.js
      */
     function alReady ( fn ) {
-        var add = 'addEventListener';
-        var pre = document[ add ] ? '' : 'on';
+        const add = 'addEventListener';
+        const pre = document[ add ] ? '' : 'on';
 
         ~document.readyState.indexOf( 'm' ) ? fn() :
             'load DOMContentLoaded readystatechange'.replace( /\w+/g, function( type, i ) {

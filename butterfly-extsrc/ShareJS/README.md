@@ -1,10 +1,7 @@
 Share.js
 ===
 
-> 🚨 此项目已经年久失修，其实分享就是一个个链接而已，每个链接里传递一些内容，所以定制需求比较高的话建议自己实现，没啥难度。
-> URL 写法请参考：https://github.com/overtrue/share.js/blob/master/src/js/social-share.js#L56-L64
-
-一键分享到微博、QQ空间、QQ好友、微信、腾讯微博、豆瓣、Facebook、Twitter、Linkedin、Google+、点点等社交网站。
+一键分享到微博、QQ空间、QQ好友、微信、LinkedIn、Facebook、X（前Twitter）等社交网站。
 
 ![qq20151127-1 2x](https://cloud.githubusercontent.com/assets/1472352/11433126/05f8b0e0-94f4-11e5-9fca-74dc9d1b633f.png)
 
@@ -57,8 +54,8 @@ title               : '', // 标题，默认读取 document.title 或者 <meta n
 origin              : '', // 分享 @ 相关 twitter 账号
 description         : '', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
 image               : '', // 图片, 默认取网页中第一个img标签
-sites               : ['qzone', 'qq', 'weibo','wechat', 'douban'], // 启用的站点
-disabled            : ['google', 'facebook', 'twitter'], // 禁用的站点
+sites               : ['qzone', 'qq', 'weibo','wechat', 'linkedin', 'facebook', 'x', 'twitter'], // 启用的站点
+disabled            : ['linkedin', 'facebook', 'x'], // 禁用的站点
 wechatQrcodeTitle   : '微信扫一扫：分享', // 微信二维码提示文字
 wechatQrcodeHelper  : '<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>'
 ```
@@ -131,33 +128,14 @@ socialShare('.social-share-cs', $config);
 ### 指定移动设备上显示的图标
 
 ```html
-<div class="share-component" data-mobile-sites="weibo,qq,qzone,tencent"></div>
+<div class="share-component" data-mobile-sites="weibo,qq,qzone,facebook,x"></div>
 ```
 当在手机上打开该页面的时候就只会显示这4个图标了。
 
 欢迎贡献代码及提建议！
 
 ## Requirejs
-本插件支持使用Requirejs加载，Jquery版本参考如下：
-```js
-requirejs.config({
-  paths: {
-    jquery: '//cdn.bootcss.com/jquery/2.2.4/jquery.min',
-    share: '//cdn.bootcss.com/social-share.js/1.0.15/js/jquery.share.min'
-  },
-  shim: {
-    share:['jquery']
-  }
-})
-
-requirejs(['jquery','share'],function ($){
-  $('.target').share({
-    // settings
-  })
-})
-```
-
-无依赖版本直接加载即可，使用参考如下：
+本插件支持使用Requirejs加载，无依赖版本参考如下：
 ```js
 requirejs.config({
   paths: {
@@ -175,7 +153,7 @@ requirejs(['share'],function (){
 
 # 引用
 
-本项目中二维码生成部分用到了开源组件：[lrsjng/jquery-qrcode](https://github.com/lrsjng/jquery-qrcode) (MIT License)
+本项目中二维码生成部分用到了开源组件。
 
 # 贡献你的代码
 

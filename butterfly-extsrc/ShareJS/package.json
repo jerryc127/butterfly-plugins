@@ -1,7 +1,7 @@
 {
   "name": "social-share.js",
   "description": "create social share buttons on your site.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "dist/js/social-share.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,11 +17,11 @@
     "share",
     "weibo",
     "qq",
-    "douban",
     "qzone",
     "linkedin",
     "facebook",
-    "google"
+    "x",
+    "wechat"
   ],
   "author": "overtrue",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "gulp-sass": "*",
     "gulp-size": "*",
     "gulp-uglify": "*",
-    "gulp-util": "*"
+    "gulp-util": "*",
+    "sass": "^1.91.0"
   }
 }

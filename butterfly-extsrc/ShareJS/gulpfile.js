@@ -1,9 +1,9 @@
-var basePaths = {
+const basePaths = {
   src: 'src/',
   dest: 'dist/',
   bower: 'bower_components/'
 };
-var paths = {
+const paths = {
   scripts: {
     src: basePaths.src + 'js/',
     dest: basePaths.dest + 'js/'
@@ -18,14 +18,14 @@ var paths = {
   }
 };
 
-var appFiles = {
+const appFiles = {
   styles: [paths.styles.src + '**/*.scss'],
-  jqueryShare: [paths.scripts.src + 'jquery.qrcode.min.js', paths.scripts.src + 'jquery.share.js'],
+  jqueryShare: [],
   socialShare: [paths.scripts.src + 'qrcode.js', paths.scripts.src + 'social-share.js'],
-  fonts: [paths.fonts.src + '**/*']
+  fonts: [paths.fonts.src + '**/*.{woff,woff2,ttf,eot,svg}']
 };
 
-var vendorFiles = {
+const vendorFiles = {
   styles: [],
   scripts: [],
   fonts: []
@@ -35,93 +35,76 @@ var vendorFiles = {
   Let the magic begin
 */
 
-var gulp = require('gulp');
+const gulp = require('gulp');
+const es = require('event-stream');
+const gutil = require('gulp-util');
+const concat = require('gulp-concat');
+const del = require('del');
 
-var es = require('event-stream');
-var gutil = require('gulp-util');
-var concat = require('gulp-concat');
-var del = require('del');
-
-var plugins = require("gulp-load-plugins")({
+const plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
 
+// Add sass compiler
+const sassCompiler = require('sass');
+plugins.sass = require('gulp-sass')(sassCompiler);
+
 // Allows gulp --dev to be run for a more verbose output
-var isProduction = true;
-var sassStyle = 'compressed';
-var sourceMap = false;
+const isProduction = true;
+let sassStyle = 'compressed';
+let sourceMap = false;
 
 if(gutil.env.dev === true) {
   sassStyle = 'expanded';
   sourceMap = true;
-  isProduction = false;
+  // isProduction = false; // This line was commented out in original
 }
 
-var changeEvent = function(evt) {
+const changeEvent = function(evt) {
   gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
 };
 
-var clean = function(path, cb) {
+const clean = function(path, cb) {
   // You can use multiple globbing patterns as you would with `gulp.src`
   del([path], {force:true}, cb);
 };
 
 gulp.task('css', function(cb){
   // app css
-  plugins.sass(vendorFiles.styles.concat(appFiles.styles), {
+  gulp.src(vendorFiles.styles.concat(appFiles.styles))
+    .pipe(require('gulp-sass')(require('sass'))({
       outputStyle: sassStyle, sourcemap: sourceMap, precision: 2
-    })
-    // .pipe(plugins.concat('style.min.css'))
-    .pipe(plugins.autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
     }))
-    // .pipe(isProduction ? plugins.cssmin() : gutil.noop())
-    .pipe(plugins.size())
-    .on('error', function(err){
-      new gutil.PluginError('CSS', err, {showStack: true});
-    })
-    .pipe(plugins.notify())
-    .pipe(plugins.rename({suffix: '.min'}))
+    // .pipe(plugins.concat('style.min.css'))
+    .pipe(require('gulp-rename')({ suffix: '.min' }))
     .pipe(gulp.dest(paths.styles.dest));
     cb()
 });
 
-gulp.task('jquery.share.js', function () {
-  return gulp.src(appFiles.jqueryShare)
-    .pipe(concat('jquery.share.js'))
-    .pipe(isProduction ? plugins.uglify() : gutil.noop())
-    .pipe(plugins.size())
-    .pipe(plugins.notify())
-    .pipe(plugins.rename({suffix: '.min'}))
-    .pipe(gulp.dest(paths.scripts.dest));
-});
-
 gulp.task('share.js', function () {
   return gulp.src(appFiles.socialShare)
-    .pipe(concat('social-share.js'))
-    .pipe(isProduction ? plugins.uglify() : gutil.noop())
-    .pipe(plugins.size())
-    .pipe(plugins.notify())
-    .pipe(plugins.rename({suffix: '.min'}))
+    .pipe(require('gulp-concat')('social-share.js'))
+    .pipe(isProduction ? require('gulp-uglify')() : gutil.noop())
+    .pipe(require('gulp-rename')({ suffix: '.min' }))
     .pipe(gulp.dest(paths.scripts.dest));
 });
 
 gulp.task('fonts', function(){
-  return gulp.src(appFiles.fonts)
+  return gulp.src(appFiles.fonts, {encoding: false})
     .pipe(gulp.dest(paths.fonts.dest));
 });
 
 
-gulp.task('watch', gulp.parallel('css', 'jquery.share.js', 'share.js', 'fonts'), function () {
-  gulp.watch(appFiles.styles, ['css']).on('change', function (evt) {
+gulp.task('watch', gulp.series(gulp.parallel('css', 'share.js', 'fonts'), function (done) {
+  gulp.watch(appFiles.styles, gulp.series('css')).on('change', function (evt) {
     changeEvent(evt);
   });
 
-  gulp.watch(paths.scripts.src + '*.js', ['jquery.share.js', 'share.js']).on('change', function (evt) {
+  gulp.watch(paths.scripts.src + '*.js', gulp.series('share.js')).on('change', function (evt) {
     changeEvent(evt);
   });
-});
+  done();
+}));
 
-gulp.task('default', gulp.parallel( 'css', 'jquery.share.js', 'share.js', 'fonts' ));
+gulp.task('default', gulp.parallel('css', 'share.js', 'fonts'));

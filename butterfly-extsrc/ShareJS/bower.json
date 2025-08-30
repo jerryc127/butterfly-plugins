@@ -11,11 +11,11 @@
     "share",
     "weibo",
     "qq",
-    "douban",
     "qzone",
     "linkedin",
     "facebook",
-    "google"
+    "x",
+    "wechat"
   ],
   "homepage": "https://github.com/overtrue/share.js",
   "ignore": [
