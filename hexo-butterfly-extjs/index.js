@@ -24,7 +24,7 @@ hexo.extend.generator.register('pluginsSrc', () => {
 
   const dataObj = []
   const errorObj = []
-  const fileCache = new Map() // ← 快取池
+  const fileCache = new Map()
 
   const getModulePath = moduleName => {
     try {
