@@ -8,15 +8,17 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const { third_party_provider } = hexo.theme.config.CDN || {}
   if (third_party_provider && third_party_provider !== 'local') return
 
-  hexo.log.info(
-    '[hexo-butterfly-extjs] 提醒：主題更新時，hexo-butterfly-extjs 也會跟著更新。' +
-    '如果遇到插件問題，請升級主題到最新版或者把插件降級。'
-  )
+  if (hexo.env.cmd === 'generate') {
+    hexo.log.info(
+      '[hexo-butterfly-extjs] 提醒：主題更新時，hexo-butterfly-extjs 也會跟著更新。' +
+      '如果遇到插件問題，請升級主題到最新版或者把插件降級。'
+    )
 
-  hexo.log.info(
-    '[hexo-butterfly-extjs] Notice: When the theme updates, hexo-butterfly-extjs will also be updated. ' +
-    'If you encounter plugin issues, please upgrade the theme to the latest version or downgrade the plugin.'
-  )
+    hexo.log.info(
+      '[hexo-butterfly-extjs] Notice: When the theme updates, hexo-butterfly-extjs will also be updated. ' +
+      'If you encounter plugin issues, please upgrade the theme to the latest version or downgrade the plugin.'
+    )
+  }
 
   const plugins = yaml.load(
     readFileSync(path.join(hexo.theme_dir, 'plugins.yml'))
