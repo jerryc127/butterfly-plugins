@@ -1,0 +1,80 @@
+#categoryBar
+  width 100%!important
+ul
+  &.categoryBar-list
+    margin 5px 5px 0 5px!important
+    padding 0!important
+
+li
+  &.categoryBar-list-item
+    font-weight bold
+    display inline-block
+    height 180px!important
+    margin 5px .5% 0 .5%!important
+    background-image linear-gradient(rgba(0, 0, 0, 0.4) 25%, rgba(16, 16, 16, 0) 100%)
+    border-radius 10px
+    padding 25px 0 25px 25px!important
+    box-shadow rgba(50, 50, 50, 0.3)  50px 50px 50px 50px inset
+    overflow hidden
+    background-size 100%!important
+    background-position center!important
+    &:hover
+      background-size 110%!important
+      box-shadow inset 500px 50px 50px 50px rgba(50,50,50, 0.6)
+      span
+        &.categoryBar-list-descr
+          transition all .5s
+          transform translate(-100%, 0)
+a
+  &.categoryBar-list-link
+    color white!important
+    font-size 20px!important
+    &::before
+      content '|'!important
+      color white!important
+      font-size 20px!important
+    &:after
+      content ''
+      position relative
+      width 0
+      bottom 0
+      display block
+      height 3px
+      border-radius 3px
+      background-color white
+    &:hover
+      &:after
+        width 90%
+        left 1%
+        transition all 0.5s
+
+span
+  &.categoryBar-list-count
+    display block!important
+    color white!important
+    font-size 20px!important
+    &::before
+      content '\f02d'!important
+      padding-right 15px!important
+      display: inline-block
+      font-weight: 600
+      font-style: normal
+      font-variant: normal
+      font-family: 'Font Awesome 6 Free'
+      text-rendering: auto
+      -webkit-font-smoothing: antialiased
+  &.categoryBar-list-descr
+    padding 5px
+    display block!important
+    color white!important
+    font-size 20px!important
+    position relative
+    right -100%
+
+
+@media screen and (max-width: 650px)
+  li
+    &.categoryBar-list-item
+      width 48%!important
+      height 150px!important
+      margin 5px 1% 0 1%!important

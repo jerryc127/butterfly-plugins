@@ -1,0 +1,33 @@
+{
+  "name": "hexo-butterfly-category-card-fork",
+  "version": "1.0.16",
+  "description": "A categories card plugin for theme-butterfly",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ."
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "lib/",
+    "index.js"
+  ],
+  "keywords": [
+    "hexo",
+    "filter",
+    "cotegotise card",
+    "butterfly",
+    "theme-butterfly",
+    "plugins"
+  ],
+  "author": "akilarlxh & hoochanlon",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pug": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoochanlon/hexo-butterfly-category-card-fork.git"
+  }
+}

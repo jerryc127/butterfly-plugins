@@ -1,0 +1,29 @@
+{
+  "name": "hexo-butterfly-charts",
+  "version": "1.1.6",
+  "description": "Render statistics of hexo poats, categories, and tags into charts.This is a modified version based on hexo-statistics-charts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "charts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kuole-o/hexo-butterfly-charts.git"
+  },
+  "keywords": [
+    "charts",
+    "butterfly",
+    "hexo",
+    "statistics"
+  ],
+  "author": "guole",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kuole-o/hexo-butterfly-charts/issues"
+  },
+  "homepage": "https://github.com/kuole-o/hexo-butterfly-charts#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "moment": "^2.29.4"
+  }
+}
