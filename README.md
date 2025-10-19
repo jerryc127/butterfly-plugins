@@ -10,6 +10,9 @@ Butterfly 主題的一些插件集合，為 Hexo 主題 Butterfly 提供額外�
 - **[hexo-butterfly-hpptalk](https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-hpptalk)**: Hexoplusplus-talk 插件，為主題 Butterfly 提供說說功能。
 - **[hexo-butterfly-vanta](https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-vanta)**: Vanta.js 插件，為主題 Butterfly 提供動畫背景效果。
 - **[hexo-butterfly-vssue](https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-vssue)**: Vssue 插件，為主題 Butterfly 提供基於 GitHub Issues 的評論系統。
+- **[hexo-butterfly-charts](https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-charts)**: charts 插件，為主題 Butterfly 提供類別和標籤的統計數據呈現到圖表中。
+- **[hexo-butterfly-category-card-fork](https://github.com/jerryc127/butterfly-plugins/tree/main/hexo-butterfly-category-card-fork)**: hexo-butterfly-category-card-fork 插件，為主題 Butterfly 提供分類頁分類卡片化效果。
+
 
 ## 安裝
 

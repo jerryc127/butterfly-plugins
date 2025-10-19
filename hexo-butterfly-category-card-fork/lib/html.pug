@@ -1,0 +1,34 @@
+- var prow = 190 * row + 'px'
+- var mrow = 160 * row + 'px'
+
+if (column === 'odd')
+  style.
+    li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: #{prow};overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: #{mrow};}}
+else if (column === 'even')
+  style.
+    li.categoryBar-list-item{width:24%;}.categoryBar-list{max-height: #{prow};overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: #{mrow};}}
+.recent-post-item(style='height:auto;width:100%;padding:0px;')
+  #categoryBar
+    ul.categoryBar-list
+      if pjaxenable
+        each cl in categories_list
+          li.categoryBar-list-item(style=`background:url(` + cl.cover + `);`)  
+            //- 强制修正路径：移除重复的 categories 前缀
+            - var cleanPath = cl.path.replace(/^\/?categories\//, '')
+            a.categoryBar-list-link(
+              onclick=`pjax.loadUrl("/categories/${cleanPath}");`
+              href='javascript:void(0);'
+            )= cl.name
+            span.categoryBar-list-count= cl.length
+            span.categoryBar-list-descr= cl.descr
+      else
+        each cl in categories_list
+          li.categoryBar-list-item(style=`background:url(` + cl.cover + `);`)  
+            //- 直接输出修正后的路径
+            - var cleanPath = cl.path.replace(/^\/?categories\//, '')
+            a.categoryBar-list-link(href=`/categories/${cleanPath}`)= cl.name
+            span.categoryBar-list-count= cl.length
+            span.categoryBar-list-descr= cl.descr
+
+
+
