@@ -29,13 +29,15 @@ hexo.extend.generator.register('pluginsSrc', () => {
   const fileCache = new Map()
 
   const getModulePath = moduleName => {
-    try {
-      const packagePath = require.resolve(moduleName)
-      const match = packagePath.match(/(.*[\\/]node_modules)(?=[\\/])/)
-      return match ? match[0] : hexo.plugin_dir
-    } catch {
-      return hexo.plugin_dir
+    const candidates = [`${moduleName}/package.json`, moduleName]
+    for (const candidate of candidates) {
+      try {
+        const packagePath = require.resolve(candidate)
+        const match = packagePath.match(/(.*[\\/]node_modules)(?=[\\/])/)
+        if (match) return match[0]
+      } catch {}
     }
+    return hexo.plugin_dir
   }
 
   const readFileCached = absPath => {
@@ -62,13 +64,9 @@ hexo.extend.generator.register('pluginsSrc', () => {
     }
   })
 
-  if (errorObj.length) {
-    hexo.log.warn('Please reinstall hexo-butterfly-extjs:')
-    errorObj.forEach(msg => hexo.log.warn(msg))
-    process.exit(-1)
-  }
-
   // webfonts
+  const mathUse = hexo.theme.config.math?.use
+
   const folders = {
     fontawesome_free: {
       name: '@fortawesome/fontawesome-free',
@@ -81,22 +79,22 @@ hexo.extend.generator.register('pluginsSrc', () => {
     mathjax: {
       name: 'mathjax',
       path: '.',
-      enable: hexo.theme.config.math.use === 'mathjax'
+      enable: mathUse === 'mathjax'
     },
     mathjax_font: {
       name: '@mathjax/mathjax-newcm-font',
       path: '.',
-      enable: hexo.theme.config.math.use === 'mathjax'
+      enable: mathUse === 'mathjax'
     },
     mathjax_bbm_font: {
       name: '@mathjax/mathjax-mhchem-font-extension',
       path: '.',
-      enable: hexo.theme.config.math.use === 'mathjax'
+      enable: mathUse === 'mathjax'
     },
     katex_font: {
       name: 'katex',
       path: 'dist/fonts',
-      enable: hexo.theme.config.math.use === 'katex'
+      enable: mathUse === 'katex'
     }
   }
 
@@ -117,9 +115,20 @@ hexo.extend.generator.register('pluginsSrc', () => {
   Object.values(folders)
     .filter(f => f.enable !== false)
     .forEach(f => {
-      const basePath = path.join(getModulePath(f.name), f.name, f.path)
-      lookForFiles(basePath, path.join(f.name, f.path))
+      const routeName = path.posix.join(f.name, f.path)
+      try {
+        const basePath = path.join(getModulePath(f.name), f.name, f.path)
+        lookForFiles(basePath, routeName)
+      } catch {
+        errorObj.push(`Missing folder: ${routeName}`)
+      }
     })
+
+  if (errorObj.length) {
+    hexo.log.warn('Please reinstall hexo-butterfly-extjs:')
+    errorObj.forEach(msg => hexo.log.warn(msg))
+    process.exit(-1)
+  }
 
   return dataObj
 })
